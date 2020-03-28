@@ -1,0 +1,39 @@
+{
+  "name": "beeramid",
+  "version": "1.0.0",
+  "description": "drink",
+  "main": "server/index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "node server/index.js",
+    "dev": "webpack-dev-server --open --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustinEdwardKennedy/beeramid.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustinEdwardKennedy/beeramid/issues"
+  },
+  "homepage": "https://github.com/JustinEdwardKennedy/beeramid#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "html-webpack-plugin": "^4.0.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
