@@ -1,5 +1,7 @@
 # Beeramid
 
+Drink
+
 ## Setup
 
 ```
