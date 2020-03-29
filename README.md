@@ -1,6 +1,6 @@
 # Beeramid
 
-Drink
+drink
 
 ## Setup
 
