@@ -12,6 +12,10 @@ module.exports = {
             use: {
               loader: "babel-loader"
             }
+          },
+          {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
           }
         ]
     },
@@ -22,7 +26,7 @@ module.exports = {
         path: path.join(__dirname, "public"),
         filename: "bundle.js",
         publicPath: "/"
-    }, 
+    },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
