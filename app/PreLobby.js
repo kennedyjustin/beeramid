@@ -18,9 +18,11 @@ class PreLobby extends Component {
 
   enterName(event) {
     event.preventDefault()
-    this.state.socket.emit('name', {
-      name: this.state.name
-    })
+    if (this.state.name) {
+      this.state.socket.emit('name', {
+        name: this.state.name
+      })
+    }
   }
 
   render() {

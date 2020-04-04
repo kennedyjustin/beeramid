@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import { Navbar } from 'react-bootstrap'
+import { Navbar, Container, Row, Col } from 'react-bootstrap'
 import PreLobby from './PreLobby'
 import Lobby from './Lobby'
+import Beeramid from './Beeramid'
 
 class App extends Component {
   constructor() {
@@ -10,8 +11,11 @@ class App extends Component {
     this.state = {
       socket: io(),
       name: null,
-      names: [],
-      lobby: true
+      players: [],
+      gamePlaying: false,
+      inGame: false,
+      gameType: 'null',
+      tooManyPlayers: false
     };
 
     this.state.socket.on('lobbyUpdate', (data) => this.lobbyUpdate(data))
@@ -19,21 +23,57 @@ class App extends Component {
 
   lobbyUpdate(data) {
     this.setState({
-      names: data.names,
-      name: data.name
+      players: data.players,
+      name: data.name,
+      gamePlaying: data.gamePlaying,
+      inGame: data.inGame,
+      gameType: data.gameType,
+      tooManyPlayers: data.tooManyPlayers
     })
   }
 
   render() {
     let game
-    if (this.state.lobby) {
+    if (this.state.tooManyPlayers) {
+      game = (
+        <Container fluid>
+          <Row>
+            <Col>
+              <p>Too many players, please try again later.</p>
+            </Col>
+          </Row>
+        </Container>
+      )
+    } else if (!this.state.inGame) {
       if (this.state.name) {
-        game = <Lobby name={this.state.name} names={this.state.names} />
+        game = (
+          <Lobby
+            socket={this.state.socket}
+            name={this.state.name}
+            players={this.state.players}
+            gamePlaying={this.state.gamePlaying}
+          />
+        )
       } else {
-        game = <PreLobby socket={this.state.socket} />
+        game = (
+          <PreLobby socket={this.state.socket} />
+        )
       }
     } else {
-      game = <div>Beeramid</div>
+      switch (this.state.gameType) {
+        case 'Beeramid':
+          game = (
+            <Beeramid
+              socket={this.state.socket}
+              name={this.state.name}
+            />
+          )
+          break
+        default:
+          game = (
+            <h1>Unknown Game</h1>
+          )
+      }
     }
 
     return (

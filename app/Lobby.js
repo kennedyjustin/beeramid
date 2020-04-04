@@ -1,28 +1,57 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, ListGroup } from 'react-bootstrap'
+import { Container, Row, Col, ListGroup, Button, Form } from 'react-bootstrap'
 
 class Lobby extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      socket: props.socket,
       name: props.name,
-      names: props.names
+      players: props.players,
+      gamePlaying: props.gamePlaying
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       name: nextProps.name,
-      names: nextProps.names
+      players: nextProps.players,
+      gamePlaying: nextProps.gamePlaying
     });
   }
 
+  startGame(event) {
+    event.preventDefault()
+    this.state.socket.emit('startGame', {
+      game: 'Beeramid'
+    })
+  }
+
   render() {
-    const lobbyList = this.state.names.map(name => {
-      if (name) {
-        return <ListGroup.Item>{name}</ListGroup.Item>
+    let lobbyMembers = 0
+    const lobbyList = this.state.players.map(player => {
+      if (player['name']) {
+        lobbyMembers++
+        return (
+          <ListGroup.Item>
+            {player['name'] + ' ' + (player['inGame'] ? '(currently playing)' : '')}
+          </ListGroup.Item>
+        )
       }
     })
+
+    let startButton
+    if (lobbyMembers >= 3 && !this.state.gamePlaying) {
+      startButton = (
+        <Row>
+          <Col>
+            <Button variant="primary" onClick={this.startGame.bind(this)}>
+              Start Beeramid
+            </Button>
+          </Col>
+        </Row>
+      )
+    }
 
     return (
       <Container fluid>
@@ -38,6 +67,7 @@ class Lobby extends Component {
             </ListGroup>
           </Col>
         </Row>
+        {startButton}
       </Container>
     )
   }
