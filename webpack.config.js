@@ -31,7 +31,8 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             title: "Beeramid",
-            template: path.join(__dirname, "app", "index.html")
+            template: path.join(__dirname, "app", "index.html"),
+            favicon: path.join(__dirname, "app", "favicon-32x32.png")
         })
     ],
     devServer: {
