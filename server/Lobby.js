@@ -34,7 +34,7 @@ module.exports = class Lobby {
       this.game.removePlayer(id)
     }
 
-    let index
+    let index = -1
     let name
     this.players.forEach((player, i) => {
       if (player.getId() == id) {
@@ -42,7 +42,7 @@ module.exports = class Lobby {
         name = player.getName()
       }
     })
-    if (index) {
+    if (index >= 0) {
       this.players.splice(index, 1)
     }
 
