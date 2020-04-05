@@ -15,6 +15,7 @@ class Beeramid extends Component {
   }
 
   gameUpdate(data) {
+    console.log(data.players)
     this.setState({
       players: data.players,
       name: data.name,

@@ -32,7 +32,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "Beeramid",
             template: path.join(__dirname, "app", "index.html"),
-            favicon: path.join(__dirname, "app", "favicon-32x32.png")
+            favicon: path.join(__dirname, "app", "favicon.png")
         })
     ],
     devServer: {

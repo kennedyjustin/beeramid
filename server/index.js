@@ -12,7 +12,9 @@ app.use(express.static('public'))
 const lobby = new Lobby()
 
 io.on('connection', (socket) => {
-  lobby.addPlayer(socket)
+  const uuid = socket.handshake.query.uuid
+  const name = socket.handshake.query.name === 'null' ? null : socket.handshake.query.name
+  lobby.addPlayer(socket, uuid, name)
   socket.on('disconnect', () => lobby.removePlayer(socket.id))
 })
 

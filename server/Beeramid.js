@@ -1,7 +1,7 @@
 const Game = require('./Game')
 const BeeramidPlayer = require('./BeeramidPlayer')
 
-const MAX_PLAYERS = 4
+const MAX_PLAYERS = 7
 const NAME = 'Beeramid'
 
 module.exports = class Beeramid extends Game {

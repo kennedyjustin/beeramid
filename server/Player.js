@@ -1,20 +1,31 @@
+const PLAYER_PREFIX = 'PLAYER'
 const MAX_NAME_LENGTH = 20
 
 module.exports = class Player {
-  constructor(socket, triggerLobbyUpdate, startGame) {
+  constructor(socket, uuid, name, triggerLobbyUpdate, startGame) {
     this.socket = socket
-    this.name = null
+    this.name = name
     this.id = socket.id
+    this.uuid = uuid
     this.inGame = false
     this.triggerLobbyUpdate = triggerLobbyUpdate
     this.startGame = startGame
 
-    socket.on('name', (data) => this.setName(data.name))
-    socket.on('startGame', (data) => this.startGame(data.game, this.id))
+    this.initializeListeners()
   }
 
   getSocket() {
     return this.socket
+  }
+
+  setSocket(socket) {
+    this.socket = socket
+    this.id = socket.id
+  }
+
+  initializeListeners() {
+    this.socket.on('name', (data) => this.setName(data.name))
+    this.socket.on('startGame', (data) => this.startGame(data.game, this.id))
   }
 
   getName() {
@@ -28,12 +39,21 @@ module.exports = class Player {
       this.name = name
     }
 
-    console.log("New Player: " + this.name + " (Connection: " + this.id + ")")
+    console.log(
+      PLAYER_PREFIX + ' - Setting name for player:\n' +
+      '\tSocket ID: ' + this.id + '\n' +
+      '\tUUID: ' + this.uuid + '\n' +
+      '\tName: ' + this.name
+    )
     this.triggerLobbyUpdate()
   }
 
   getId() {
     return this.id
+  }
+
+  getUuid() {
+    return this.uuid
   }
 
   getInGame() {
@@ -45,10 +65,11 @@ module.exports = class Player {
   }
 
   isReady() {
-    return this.name !== null
+    return this.name != null
   }
 
   giveLobbyUpdate(update) {
     this.getSocket().emit('lobbyUpdate', update)
   }
+
 }

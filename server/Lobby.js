@@ -1,6 +1,7 @@
 const Player = require('./Player')
 const Beeramid = require('./Beeramid')
 
+const LOBBY_PREFIX = 'LOBBY'
 const MAX_LOBBY_MEMBERS = 10
 
 module.exports = class Lobby {
@@ -10,43 +11,58 @@ module.exports = class Lobby {
     this.gamePlaying = false
   }
 
-  addPlayer(socket) {
+  addPlayer(socket, uuid, name) {
+    this.logPlayer('Adding player to lobby', socket.id, uuid, name)
+
+    const existingPlayer = this.players.find(p => p.getUuid() === uuid)
+    if (existingPlayer) {
+      existingPlayer.setSocket(socket)
+      existingPlayer.initializeListeners()
+      this.triggerLobbyUpdate()
+      this.logPlayer('Player already exists, reset socket', socket.id, uuid, name)
+      if (this.gamePlaying && existingPlayer.getInGame()) {
+        this.game.playerReconnected(uuid)
+        this.logPlayer('Reconnected player to game', socket.id, uuid, name)
+      }
+      return
+    }
+
     if (this.players.length >= MAX_LOBBY_MEMBERS) {
       socket.emit('lobbyUpdate', {
         tooManyPlayers: true
       })
       socket.disconnect(true)
+      this.logPlayer('Too many players in lobby, rejecting connection', socket.id, uuid, name)
       return
     }
 
     this.players.push(new Player(
       socket,
+      uuid,
+      name,
       this.triggerLobbyUpdate.bind(this),
       this.startGame.bind(this)
     ))
+    this.logPlayer('Added player to lobby', socket.id, uuid, name)
 
-    console.log("New Connection: " + socket.id)
     this.triggerLobbyUpdate()
   }
 
   removePlayer(id) {
-    if (this.gamePlaying) {
-      this.game.removePlayer(id)
-    }
+    const index = this.players.findIndex(p => p.getId() === id)
+    const player = this.players.find(p => p.getId() === id)
 
-    let index = -1
-    let name
-    this.players.forEach((player, i) => {
-      if (player.getId() == id) {
-        index = i
-        name = player.getName()
-      }
-    })
     if (index >= 0) {
-      this.players.splice(index, 1)
+
+      if (this.gamePlaying && player.getInGame()) {
+        this.game.playerDisconnected(id)
+        this.logPlayer('Disconnected player from on-going game', id, player.getUuid(), player.getName())
+      } else {
+        this.players.splice(index, 1)
+        this.logPlayer('Removed player from lobby', id, player.getUuid(), player.getName())
+      }
     }
 
-    console.log("Player left: " + name + " (Connection: " + id + ")")
     this.triggerLobbyUpdate()
   }
 
@@ -84,10 +100,14 @@ module.exports = class Lobby {
     }
 
     if (game) {
-      console.log('Starting Game: ' + gameName)
-
       this.gamePlaying = true
       this.game = new game(this.players, hostId, this.endGame.bind(this))
+      console.log(
+        LOBBY_PREFIX + ' - Started game:\n' +
+        '\tType: ' + gameName +
+        '\tHost: ' + this.game.getHostName() +
+        '\tPlayers: ' + this.game.getPlayerNames()
+      )
 
       this.triggerLobbyUpdate()
       this.game.triggerGameUpdate()
@@ -99,16 +119,28 @@ module.exports = class Lobby {
       return
     }
 
-    console.log('Ending Game: ' + this.game.getName())
-
+    const name = this.game.getName()
     this.gamePlaying = false
     this.game.cleanupGame()
     this.players.forEach(player => {
       player.setInGame(false)
     })
     this.game = null
+    console.log(
+      LOBBY_PREFIX + ' - Ended game:\n' +
+      '\tType: ' + name
+    )
 
     this.triggerLobbyUpdate()
+  }
+
+  logPlayer(logString, socketId, uuid, name) {
+    console.log(
+      LOBBY_PREFIX + ' - ' + logString + ':\n' +
+      '\tSocket ID: ' + socketId + '\n' +
+      '\tUUID: ' + uuid + '\n' +
+      '\tName: ' + name
+    )
   }
 
 }

@@ -3,12 +3,9 @@ module.exports = class GamePlayer {
     this.player = player
     this.isHost = false
     this.endGame = null
+    this.connected = true
 
-    this.player.getSocket().on('endGame', () => {
-      if (this.isHost) {
-        this.endGame()
-      }
-    })
+    this.initializeListeners()
   }
 
   getName() {
@@ -17,6 +14,10 @@ module.exports = class GamePlayer {
 
   getId() {
     return this.player.getId()
+  }
+
+  getUuid() {
+    return this.player.getUuid()
   }
 
   getIsHost() {
@@ -31,11 +32,30 @@ module.exports = class GamePlayer {
     this.endGame = endGame
   }
 
+  getConnected() {
+    return this.connected
+  }
+
+  setConnected(connected) {
+    this.connected = connected
+  }
+
+  initializeListeners() {
+    this.player.getSocket().on('endGame', () => {
+      if (this.isHost) {
+        this.endGame()
+      }
+    })
+    this.initializeCustomListeners()
+  }
+
   removeListeners() {
     this.player.getSocket().removeAllListeners(['endGame'])
+    this.removeCustomListeners()
   }
 
   gameUpdate(update) {
+    console.log('updating: ' + this.player.getName())
     this.player.getSocket().emit('gameUpdate', update)
   }
 }

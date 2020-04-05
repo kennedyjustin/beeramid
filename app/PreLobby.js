@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import Cookies from 'universal-cookie'
 
 class PreLobby extends Component {
   constructor(props) {
@@ -19,6 +20,8 @@ class PreLobby extends Component {
   enterName(event) {
     event.preventDefault()
     if (this.state.name) {
+      const cookies = new Cookies()
+      cookies.set('name', this.state.name, { path: '/' })
       this.state.socket.emit('name', {
         name: this.state.name
       })

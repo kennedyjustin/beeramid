@@ -5,4 +5,12 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     super(player)
   }
 
+  initializeCustomListeners() {
+    return
+  }
+
+  removeCustomListeners() {
+    return
+  }
+
 }

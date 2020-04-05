@@ -29,41 +29,43 @@ module.exports = class Game {
     })
 
     this.endGame = endGame
+  }
 
-    console.log(
-      'Started Game: ' + this.getName() + '\n' +
-      '\tPlayers: ' + this.players.map(p => p.getName()) + '\n' +
-      '\tHost: ' + this.host.getName())
+  getHostName() {
+    return this.host.getName()
   }
 
   getPlayers() {
     return this.players
   }
 
-  removePlayer(id) {
-    let index
-    let name
-    let wasHost
-    this.players.forEach((player, i) => {
-      if (player.getId() == id) {
-        index = i
-        name = player.getName()
-        wasHost = true
-      }
-    })
-    if (index) {
-      this.players.splice(index, 1)
-    }
+  getPlayerNames() {
+    return this.players.map(p => p.getName())
+  }
+
+  playerDisconnected(id) {
+    const player = this.players.find(p => p.getId() === id)
+
+    player.setConnected(false)
 
     if (this.players.length === 0) {
       this.endGame()
     } else {
-      if (wasHost) {
+      if (player.getIsHost()) {
+        player.setIsHost(false)
         this.players[0].setIsHost(true)
         this.players[0].setEndGame(this.endGame)
       }
       this.triggerGameUpdate()
     }
+  }
+
+  playerReconnected(uuid) {
+    const player = this.players.find(p => p.getUuid() === uuid)
+    player.setConnected(true)
+    player.initializeListeners()
+
+    this.triggerGameUpdate()
   }
 
   cleanupGame() {
