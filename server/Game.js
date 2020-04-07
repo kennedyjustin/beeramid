@@ -46,8 +46,6 @@ module.exports = class Game {
   playerDisconnected(id) {
     const player = this.players.find(p => p.getId() === id)
 
-    player.setConnected(false)
-
     if (this.players.length === 0) {
       this.endGame()
     } else {
@@ -62,7 +60,6 @@ module.exports = class Game {
 
   playerReconnected(uuid) {
     const player = this.players.find(p => p.getUuid() === uuid)
-    player.setConnected(true)
     player.initializeListeners()
 
     this.triggerGameUpdate()

@@ -10,6 +10,7 @@ module.exports = class Player {
     this.inGame = false
     this.triggerLobbyUpdate = triggerLobbyUpdate
     this.startGame = startGame
+    this.connected = true
 
     this.initializeListeners()
   }
@@ -66,6 +67,14 @@ module.exports = class Player {
 
   isReady() {
     return this.name != null
+  }
+
+  getConnected() {
+    return this.connected
+  }
+
+  setConnected(connected) {
+    this.connected = connected
   }
 
   giveLobbyUpdate(update) {

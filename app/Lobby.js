@@ -41,7 +41,7 @@ class Lobby extends Component {
     })
 
     let startButton
-    if (lobbyMembers >= 3 && !this.state.gamePlaying) {
+    if (lobbyMembers >= 2 && !this.state.gamePlaying) {
       startButton = (
         <Row>
           <Col>

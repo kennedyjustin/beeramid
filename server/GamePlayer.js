@@ -32,12 +32,8 @@ module.exports = class GamePlayer {
     this.endGame = endGame
   }
 
-  getConnected() {
-    return this.connected
-  }
-
-  setConnected(connected) {
-    this.connected = connected
+  getPlayer() {
+    return this.player
   }
 
   initializeListeners() {

@@ -16,6 +16,7 @@ module.exports = class Lobby {
 
     const existingPlayer = this.players.find(p => p.getUuid() === uuid)
     if (existingPlayer) {
+      existingPlayer.setConnected(true)
       existingPlayer.setSocket(socket)
       existingPlayer.initializeListeners()
       this.triggerLobbyUpdate()
@@ -55,6 +56,7 @@ module.exports = class Lobby {
     if (index >= 0) {
 
       if (this.gamePlaying && player.getInGame()) {
+        player.setConnected(false)
         this.game.playerDisconnected(id)
         this.logPlayer('Disconnected player from on-going game', id, player.getUuid(), player.getName())
       } else {
@@ -102,6 +104,7 @@ module.exports = class Lobby {
     if (game) {
       this.gamePlaying = true
       this.game = new game(this.players, hostId, this.endGame.bind(this))
+
       console.log(
         LOBBY_PREFIX + ' - Started game:\n' +
         '\tType: ' + gameName +
@@ -124,6 +127,9 @@ module.exports = class Lobby {
     this.game.cleanupGame()
     this.players.forEach(player => {
       player.setInGame(false)
+      if (!player.getConnected()) {
+        this.removePlayer(player.getId())
+      }
     })
     this.game = null
     console.log(
