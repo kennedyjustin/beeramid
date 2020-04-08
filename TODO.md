@@ -1,5 +1,8 @@
 # High Level
 - Beeramid Logic
+  - Implement UI
+  - Implement Calls
+  - Implement Guesses
 - Lobby and Game chat
 - Better server side logging
 - Save high scores

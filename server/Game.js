@@ -1,14 +1,14 @@
 module.exports = class Game {
   constructor(playerType, maxPlayers, players, hostId, endGame) {
     this.host = null
-
+    this.endGame = endGame
     this.players = []
+
     players.forEach(player => {
 
       if (this.players.length >= maxPlayers) {
         if (!this.host) {
-          this.players[0].setIsHost(true)
-          this.players[0].setEndGame(this.endGame)
+          this.setHost(this.players[0])
         }
         return
       }
@@ -20,15 +20,23 @@ module.exports = class Game {
       }
 
       let specificPlayer = new playerType(player)
+      this.setEventHandlers(specificPlayer)
       if (player.getId() === hostId) {
-        specificPlayer.setIsHost(true)
-        specificPlayer.setEndGame(endGame)
-        this.host = specificPlayer
+        this.setHost(specificPlayer)
       }
       this.players.push(specificPlayer)
     })
+  }
 
-    this.endGame = endGame
+  setHost(player) {
+    player.setIsHost(true)
+    player.setEndGame(this.endGame)
+    this.host = player
+  }
+
+  setEventHandlers(player) {
+    player.setEndGame(this.endGame)
+    this.setCustomEventHandlers(player)
   }
 
   getHostName() {

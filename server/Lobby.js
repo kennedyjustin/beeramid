@@ -107,8 +107,8 @@ module.exports = class Lobby {
 
       console.log(
         LOBBY_PREFIX + ' - Started game:\n' +
-        '\tType: ' + gameName +
-        '\tHost: ' + this.game.getHostName() +
+        '\tType: ' + gameName + '\n' +
+        '\tHost: ' + this.game.getHostName() + '\n' +
         '\tPlayers: ' + this.game.getPlayerNames()
       )
 

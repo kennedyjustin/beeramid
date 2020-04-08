@@ -51,7 +51,6 @@ module.exports = class GamePlayer {
   }
 
   gameUpdate(update) {
-    console.log('updating: ' + this.player.getName())
     this.player.getSocket().emit('gameUpdate', update)
   }
 }
