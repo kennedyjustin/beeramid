@@ -1,7 +1,7 @@
 # High Level
 - Beeramid Logic
   - Implement UI
-    - Make Hands and Players
+    - Make Player Hands
     - Allow players to flip their own cards
   - Implement Calls
   - Implement Guesses

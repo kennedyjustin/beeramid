@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import Pyramid from './Pyramid'
+import Hand from './Hand'
 
 class Beeramid extends Component {
   constructor(props) {
@@ -36,29 +37,20 @@ class Beeramid extends Component {
   }
 
   nextStage() {
-    this.state.socket.emit('nextStage', {})
+    if (this.state.isHost) {
+      this.state.socket.emit('nextStage', {})
+    }
   }
 
   render() {
-
-    // TODO: Implement UI
 
     const players = []
     this.state.players.forEach(player => {
       players.push(player['name'])
     })
 
-    let nextStageButton, endButton
+    let endButton
     if (this.state.isHost) {
-      nextStageButton = (
-        <Row>
-          <Col>
-            <Button variant="primary" onClick={this.nextStage.bind(this)}>
-              Next Stage
-            </Button>
-          </Col>
-        </Row>
-      )
       endButton = (
         <Row>
           <Col>
@@ -74,10 +66,15 @@ class Beeramid extends Component {
       <Container fluid>
         <Row className="pyramid">
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
-            <Pyramid pyramid={this.state.pyramid} />
+            <Pyramid pyramid={this.state.pyramid} nextStage={this.nextStage.bind(this)}/>
           </Col>
         </Row>
-        {nextStageButton}
+        <hr />
+        <Row>
+          <Col>
+            <Hand cards={this.state.cards} />
+          </Col>
+        </Row>
         {endButton}
       </Container>
     )

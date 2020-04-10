@@ -6,7 +6,7 @@ const NAME = 'Beeramid'
 const MAX_PLAYERS = 7
 const NUM_CARDS_IN_HAND = 3
 const NUM_CARDS_IN_PYRAMID = 12
-const FIRST_STAGE_WAIT_TIME_SECONDS = 1
+const FIRST_STAGE_WAIT_TIME_SECONDS = 5
 const NORMAL_STAGE_WAIT_TIME_SECONDS = 1
 
 module.exports = class Beeramid extends Game {
