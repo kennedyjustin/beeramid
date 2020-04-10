@@ -13,7 +13,10 @@ const lobby = new Lobby()
 
 io.on('connection', (socket) => {
   const uuid = socket.handshake.query.uuid
-  const name = socket.handshake.query.name === 'null' ? null : socket.handshake.query.name
+  let name = socket.handshake.query.name
+  if (name === 'null' || name === 'undefined') {
+    name = null
+  }
   lobby.addPlayer(socket, uuid, name)
   socket.on('disconnect', () => lobby.removePlayer(socket.id))
 })

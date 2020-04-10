@@ -52,13 +52,9 @@ class Beeramid extends Component {
     let endButton
     if (this.state.isHost) {
       endButton = (
-        <Row>
-          <Col>
-            <Button variant="primary" onClick={this.endGame.bind(this)}>
-              End Game
-            </Button>
-          </Col>
-        </Row>
+        <Button variant="primary" onClick={this.endGame.bind(this)}>
+          End Game
+        </Button>
       )
     }
 
@@ -75,7 +71,20 @@ class Beeramid extends Component {
             <Hand cards={this.state.cards} />
           </Col>
         </Row>
-        {endButton}
+        <hr />
+        <Row>
+          <Col>
+            <Hand cards={this.state.cards} />
+          </Col>
+        </Row>
+        <Row>
+          <Col className="text-center">
+            <Button variant="primary">
+              Player Hands
+            </Button>{' '}
+            {endButton}
+          </Col>
+        </Row>
       </Container>
     )
   }
