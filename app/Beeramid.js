@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import Pyramid from './Pyramid'
 
 class Beeramid extends Component {
   constructor(props) {
@@ -73,12 +74,7 @@ class Beeramid extends Component {
       <Container fluid>
         <Row>
           <Col>
-            <h1>{'Name: ' + this.state.name}</h1>
-            <h1>{'Players: ' + players}</h1>
-            <h1>{'Cards: ' + JSON.stringify(this.state.cards)}</h1>
-            <h1>{'Stage: ' + this.state.stage}</h1>
-            <h1>{'Pyramid: ' + JSON.stringify(this.state.pyramid)}</h1>
-            <h1>{'Calls: ' + this.state.calls}</h1>
+            <Pyramid pyramid={this.state.pyramid} />
           </Col>
         </Row>
         {nextStageButton}
