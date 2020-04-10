@@ -40,16 +40,25 @@ class Lobby extends Component {
       }
     })
 
-    let startButton
+    let startButtons
     if (lobbyMembers >= 2 && !this.state.gamePlaying) {
-      startButton = (
-        <Row>
-          <Col>
-            <Button variant="primary" onClick={this.startGame.bind(this)}>
-              Start Beeramid
-            </Button>
-          </Col>
-        </Row>
+      startButtons = (
+        <div>
+          <Row>
+            <Col>
+              <Button variant="primary" onClick={this.startGame.bind(this)}>
+                Start Beeramid
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button variant="secondary" disabled>
+                Start Australia
+              </Button>
+            </Col>
+          </Row>
+        </div>
       )
     }
 
@@ -67,7 +76,7 @@ class Lobby extends Component {
             </ListGroup>
           </Col>
         </Row>
-        {startButton}
+        {startButtons}
       </Container>
     )
   }
