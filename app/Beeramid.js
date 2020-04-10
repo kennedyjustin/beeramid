@@ -72,8 +72,8 @@ class Beeramid extends Component {
 
     return (
       <Container fluid>
-        <Row>
-          <Col>
+        <Row className="pyramid">
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
             <Pyramid pyramid={this.state.pyramid} />
           </Col>
         </Row>

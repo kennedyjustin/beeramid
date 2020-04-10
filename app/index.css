@@ -7,6 +7,10 @@
 }
 
 .playing-card {
-  width: 15vw;
-  height: auto;
+  width: auto;
+  height: 12vh;
+}
+
+.pyramid {
+  height: 55vh;
 }

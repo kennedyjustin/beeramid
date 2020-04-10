@@ -1,7 +1,6 @@
 # High Level
 - Beeramid Logic
   - Implement UI
-    - Make responsive to laptop screens
     - Make Hands and Players
     - Allow players to flip their own cards
   - Implement Calls
