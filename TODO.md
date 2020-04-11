@@ -1,5 +1,4 @@
 # High Level
-- Who is host
 - Implement Calls
 - Implement Guesses
 - Lobby and Game chat

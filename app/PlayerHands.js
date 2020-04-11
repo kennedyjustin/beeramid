@@ -19,10 +19,19 @@ class PlayerHands extends Component {
   render() {
 
     const playerHands = this.state.players.map(player => {
+      let playerName
+      if (player['isHost']) {
+        playerName = (
+          <b>{player['name']}</b>
+        )
+      } else {
+        playerName = player['name']
+      }
+
       return (
         <Row className="justify-content-between align-items-center">
           <Col xs={4} className="text-break">
-            {player['name']}
+            {playerName}
           </Col>
           <Col xs="auto">
             <Hand cards={player['cards']} />
