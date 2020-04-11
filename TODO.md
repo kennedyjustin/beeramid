@@ -1,4 +1,5 @@
 # High Level
+- whole screen on iphone should have casino felt
 - Implement Calls
 - Implement Guesses
 - Lobby and Game chat

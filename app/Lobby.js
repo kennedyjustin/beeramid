@@ -68,6 +68,7 @@ class Lobby extends Component {
         <Sound
           url="assets/tpb.mp3"
           playStatus={Sound.status.PLAYING}
+          loop={true}
         />
         <Row>
           <Col>
