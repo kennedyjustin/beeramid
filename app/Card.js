@@ -8,7 +8,8 @@ class Card extends Component {
       rank: props.rank,
       suit: props.suit,
       hidden: props.hidden,
-      new: props.new
+      new: props.new,
+      index: props.index
     }
   }
 
@@ -17,7 +18,8 @@ class Card extends Component {
       rank: nextProps.rank,
       suit: nextProps.suit,
       hidden: nextProps.hidden,
-      new: nextProps.new
+      new: nextProps.new,
+      index: nextProps.index
     });
   }
 
@@ -36,8 +38,14 @@ class Card extends Component {
       classes += ' new-card'
     }
 
+    let style = {}
+    if (this.state.index !== undefined) {
+      classes += ' flip-card'
+      style['animation-delay'] = this.state.index + '00ms'
+    }
+
     return (
-      <Image className={classes} src={value} rounded />
+      <Image className={classes} src={value} style={style} rounded />
     )
   }
 }

@@ -9,6 +9,20 @@
 .playing-card {
   width: auto;
   height: 10vh;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.flip-card {
+  animation-name: card-flip;
+  animation-duration: 100ms;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+@keyframes card-flip {
+  0%   {opacity: 0}
+  100% {opacity: 1}
 }
 
 .pyramid {

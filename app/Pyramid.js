@@ -7,8 +7,15 @@ class Pyramid extends Component {
     super(props)
     this.state = {
       pyramid: [],
-      nextStage: props.nextStage
+      nextStage: props.nextStage,
+      alreadyMounted: false
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      alreadyMounted: true
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +36,9 @@ class Pyramid extends Component {
   }
 
   getCardAttributes(index) {
-    let attributes = {}
+    let attributes = {
+      index: index
+    }
     if (this.state.pyramid.length > index) {
       attributes['rank'] = this.state.pyramid[index]['rank']
       attributes['suit'] = this.state.pyramid[index]['suit']

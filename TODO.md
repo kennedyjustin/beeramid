@@ -9,4 +9,3 @@
 
 # Bro Bro
 - Pic of Jeff on bud light racks
-- cards deal themselves in the right order
