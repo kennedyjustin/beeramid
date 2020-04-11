@@ -32,7 +32,7 @@ class PreLobby extends Component {
     return (
       <Container fluid>
         <Row>
-          <Col>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
           <Form onSubmit={this.enterName.bind(this)}>
             <Form.Group>
               <Form.Label><h1>Name</h1></Form.Label>

@@ -14,5 +14,4 @@
 # Bro Bro
 - Trailer Park theme song
 - Pic of Jeff on bud light racks
-- Casino background
 - cards deal themselves in the right order
