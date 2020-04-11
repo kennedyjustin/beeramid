@@ -4,6 +4,7 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 
+import './cards/felt.jpg'
 import './cards/10C.png'
 import './cards/10D.png'
 import './cards/10H.png'

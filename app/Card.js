@@ -25,7 +25,7 @@ class Card extends Component {
 
     let value = 'cards/'
     if (this.state.hidden) {
-      value += 'blue_back'
+      value += 'red_back'
     } else {
       value += this.state.rank + this.state.suit
     }

@@ -22,8 +22,27 @@
 }
 
 @-webkit-keyframes blink {
-   50% { border-color: black; }
+   50% { border-color: yellow; }
 }
 @keyframes blink {
-   50% { border-color: black; }
+   50% { border-color: yellow; }
+}
+
+body {
+ background-image: url("cards/felt.jpg");
+ background-repeat: repeat;
+ color: white;
+}
+
+.list-group-item {
+  background-color: transparent;
+  border-color: white;
+}
+
+hr {
+  border-color: white;
+}
+
+.btn {
+  border-color: white;
 }
