@@ -44,6 +44,13 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     this.cards[index]['new'] = false
   }
 
+  isCardExposedOrNew(index) {
+    if (this.cards[index]['expose'] || this.cards[index]['new']) {
+      return true
+    }
+    return false
+  }
+
   setNextStage(nextStage) {
     this.nextStage = nextStage
   }

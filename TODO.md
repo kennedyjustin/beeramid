@@ -1,6 +1,5 @@
 # High Level
 - Who is host
-- Block player from exposing already exposed new card
 - Implement Calls
 - Implement Guesses
 - Lobby and Game chat
