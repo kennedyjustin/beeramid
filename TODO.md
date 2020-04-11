@@ -12,6 +12,5 @@
 - Bug where iPhone turns off and socket disconnects
 
 # Bro Bro
-- Trailer Park theme song
 - Pic of Jeff on bud light racks
 - cards deal themselves in the right order

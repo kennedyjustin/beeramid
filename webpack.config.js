@@ -18,11 +18,11 @@ module.exports = {
             use: ['style-loader', 'css-loader'],
           },
           {
-            test: /\.(png|jpe?g|gif)$/i,
+            test: /\.(png|jpe?g|gif|mp3)$/i,
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'cards'
+              outputPath: 'assets'
             },
           }
         ]

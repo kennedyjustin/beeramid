@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, ListGroup, Button, Form } from 'react-bootstrap'
+import Sound from 'react-sound'
 
 class Lobby extends Component {
   constructor(props) {
@@ -64,6 +65,10 @@ class Lobby extends Component {
 
     return (
       <Container fluid>
+        <Sound
+          url="assets/tpb.mp3"
+          playStatus={Sound.status.PLAYING}
+        />
         <Row>
           <Col>
             <h1>Lobby</h1>
