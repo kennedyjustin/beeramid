@@ -40,4 +40,8 @@ module.exports = class Deck {
       return cards
     }
   }
+
+  isEmpty() {
+    return this.cards.length === 0
+  }
 }

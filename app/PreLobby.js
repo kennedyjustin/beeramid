@@ -36,7 +36,7 @@ class PreLobby extends Component {
           <Form onSubmit={this.enterName.bind(this)}>
             <Form.Group>
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="big time" onChange={this.nameChange.bind(this)} />
+              <Form.Control type="text" placeholder="ex: big time" onChange={this.nameChange.bind(this)} />
             </Form.Group>
             <Button variant="primary" type="submit">
               Enter Lobby

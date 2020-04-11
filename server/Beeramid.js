@@ -6,10 +6,10 @@ const NAME = 'Beeramid'
 const MAX_PLAYERS = 7
 const NUM_CARDS_IN_HAND = 3
 const NUM_CARDS_IN_PYRAMID = 12
-const FIRST_STAGE_WAIT_TIME_SECONDS = 2
-const NORMAL_STAGE_WAIT_TIME_SECONDS = 2
-const REPLACE_EXPOSED_CARD_WAIT_TIME_SECONDS = 2
-const HIDE_REPLACE_CARD_WAIT_TIME_SECONDS = 2
+const FIRST_STAGE_WAIT_TIME_SECONDS = 1
+const NORMAL_STAGE_WAIT_TIME_SECONDS = 1
+const REPLACE_EXPOSED_CARD_WAIT_TIME_SECONDS = 1
+const HIDE_REPLACE_CARD_WAIT_TIME_SECONDS = 1
 
 module.exports = class Beeramid extends Game {
   constructor(players, hostId, endGame) {
@@ -59,6 +59,10 @@ module.exports = class Beeramid extends Game {
   }
 
   anyCardsExposedOrNew() {
+    if (this.deck.isEmpty()) {
+      return false
+    }
+
     let anyCards = false
     this.getPlayers().forEach(player => {
       if (player.hasAnyExposedOrNewCards()) {
@@ -75,7 +79,7 @@ module.exports = class Beeramid extends Game {
       return
     }
 
-    if (this.stage !== NUM_CARDS_IN_PYRAMID) {
+    if (this.stage !== NUM_CARDS_IN_PYRAMID && !this.deck.isEmpty()) {
       setTimeout(() => {
 
         player.replace(index, this.deck.getCards(1))
