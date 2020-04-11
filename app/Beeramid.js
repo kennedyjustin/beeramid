@@ -82,11 +82,13 @@ class Beeramid extends Component {
             <PlayerHands players={this.state.players}/>
           </Col>
         </Row>
+        <hr />
         <Row>
           <Col className="text-center">
             {endButton}
           </Col>
         </Row>
+        <Row></Row>
       </Container>
     )
   }
