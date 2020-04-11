@@ -1,10 +1,10 @@
 const PLAYER_PREFIX = 'PLAYER'
-const MAX_NAME_LENGTH = 20
+const MAX_NAME_LENGTH = 15
 
 module.exports = class Player {
   constructor(socket, uuid, name, triggerLobbyUpdate, startGame) {
     this.socket = socket
-    this.name = name
+    this.name = null
     this.id = socket.id
     this.uuid = uuid
     this.inGame = false
@@ -12,6 +12,7 @@ module.exports = class Player {
     this.startGame = startGame
     this.connected = true
 
+    this.setName(name)
     this.initializeListeners()
   }
 

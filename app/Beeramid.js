@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import Pyramid from './Pyramid'
 import Hand from './Hand'
+import PlayerHands from './PlayerHands'
 
 class Beeramid extends Component {
   constructor(props) {
@@ -14,7 +15,6 @@ class Beeramid extends Component {
       cards: [],
       stage: -1,
       pyramid: [],
-      calls: []
     }
 
     this.state.socket.on('gameUpdate', (data) => this.gameUpdate(data))
@@ -28,7 +28,6 @@ class Beeramid extends Component {
       cards: data.cards,
       stage: data.stage,
       pyramid: data.pyramid,
-      calls: data.calls
     })
   }
 
@@ -40,6 +39,12 @@ class Beeramid extends Component {
     if (this.state.isHost) {
       this.state.socket.emit('nextStage', {})
     }
+  }
+
+  exposeCard(index) {
+    this.state.socket.emit('exposeCard', {
+      index: index
+    })
   }
 
   render() {
@@ -68,20 +73,17 @@ class Beeramid extends Component {
         <hr />
         <Row>
           <Col>
-            <Hand cards={this.state.cards} />
+            <Hand cards={this.state.cards} exposeCard={this.state.stage > 0 ? this.exposeCard.bind(this): null} />
           </Col>
         </Row>
         <hr />
         <Row>
-          <Col>
-            <Hand cards={this.state.cards} />
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
+            <PlayerHands players={this.state.players}/>
           </Col>
         </Row>
         <Row>
           <Col className="text-center">
-            <Button variant="primary">
-              Player Hands
-            </Button>{' '}
             {endButton}
           </Col>
         </Row>

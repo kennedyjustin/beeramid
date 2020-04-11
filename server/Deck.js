@@ -30,10 +30,14 @@ module.exports = class Deck {
   }
 
   getCards(n) {
-    let cards = []
-    Array.from(Array(n)).map((_, i) => {
-      cards.push(this.cards.pop())
-    })
-    return cards
+    if (n === 1) {
+      return this.cards.pop()
+    } else {
+      let cards = []
+      Array.from(Array(n)).map((_, i) => {
+        cards.push(this.cards.pop())
+      })
+      return cards
+    }
   }
 }

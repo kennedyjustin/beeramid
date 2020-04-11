@@ -7,7 +7,8 @@ class Card extends Component {
     this.state = {
       rank: props.rank,
       suit: props.suit,
-      hidden: props.hidden
+      hidden: props.hidden,
+      new: props.new
     }
   }
 
@@ -15,7 +16,8 @@ class Card extends Component {
     this.setState({
       rank: nextProps.rank,
       suit: nextProps.suit,
-      hidden: nextProps.hidden
+      hidden: nextProps.hidden,
+      new: nextProps.new
     });
   }
 
@@ -29,8 +31,13 @@ class Card extends Component {
     }
     value += '.png'
 
+    let classes = 'playing-card'
+    if (this.state.new) {
+      classes += ' new-card'
+    }
+
     return (
-      <Image className="playing-card" src={value} rounded />
+      <Image className={classes} src={value} rounded />
     )
   }
 }

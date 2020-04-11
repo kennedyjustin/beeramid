@@ -14,3 +14,16 @@
 .pyramid {
   height: 45vh;
 }
+
+.new-card {
+  border: 2px solid transparent;
+  animation: blink .3s step-end infinite alternate;
+  -webkit-animation: blink .3s step-end infinite alternate;
+}
+
+@-webkit-keyframes blink {
+   50% { border-color: black; }
+}
+@keyframes blink {
+   50% { border-color: black; }
+}

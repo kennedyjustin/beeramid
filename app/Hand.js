@@ -6,30 +6,41 @@ class Hand extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: props.cards
+      cards: props.cards,
+      exposeCard: props.exposeCard
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      cards: nextProps.cards
+      cards: nextProps.cards,
+      exposeCard: nextProps.exposeCard
     });
   }
 
   render() {
 
-    const cards = this.state.cards.map(card => {
-      let attributes = {}
+    const cards = this.state.cards.map((card, i) => {
+      let cardAttributes = {}
       if (card) {
-        attributes['rank'] = card['rank']
-        attributes['suit'] = card['suit']
+        cardAttributes['rank'] = card['rank']
+        cardAttributes['suit'] = card['suit']
+        cardAttributes['new'] = card['new']
       } else {
-        attributes['hidden'] = true
+        cardAttributes['hidden'] = true
       }
+
+      let exposeAttributes = {}
+      if (this.state.exposeCard) {
+        exposeAttributes['onClick'] = () => {
+          this.state.exposeCard(i)
+        }
+      }
+
       return (
         <Col xs="auto">
-          <a>
-            <Card {...attributes}/>
+          <a {...exposeAttributes}>
+            <Card {...cardAttributes}/>
           </a>
         </Col>
       )

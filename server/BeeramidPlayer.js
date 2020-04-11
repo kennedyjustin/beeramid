@@ -4,25 +4,52 @@ module.exports = class BeeramidPlayer extends GamePlayer {
   constructor(player) {
     super(player)
     this.cards = []
-    this.guesses = []
     this.nextStage = null
+    this.exposeCard = null
   }
 
   setCards(cards) {
     this.cards = cards
+    this.cards.forEach(card => {
+      card['expose'] = false
+      card['new'] = false
+    })
   }
 
   getCards() {
     return this.cards
   }
 
-  getGuesses() {
-    // TODO: Implement guesses
-    return null
+  hasAnyExposedOrNewCards() {
+    let hasAny = false
+    this.cards.forEach(card => {
+      if (card['expose'] || card['new']) {
+        hasAny = true
+      }
+    })
+    return hasAny
+  }
+
+  expose(index) {
+    this.cards[index]['expose'] = true
+  }
+
+  replace(index, card) {
+    card['expose'] = false
+    card['new'] = true
+    this.cards[index] = card
+  }
+
+  hide(index) {
+    this.cards[index]['new'] = false
   }
 
   setNextStage(nextStage) {
     this.nextStage = nextStage
+  }
+
+  setExposeCard(exposeCard) {
+    this.exposeCard = exposeCard
   }
 
   initializeCustomListeners() {
@@ -31,14 +58,13 @@ module.exports = class BeeramidPlayer extends GamePlayer {
         this.nextStage()
       }
     })
-    // TODO: Implement Calls
-    // TODO: Implement Guesses
+    this.player.getSocket().on('exposeCard', (data) => {
+      this.exposeCard(this, data['index'])
+    })
   }
 
   removeCustomListeners() {
-    this.player.getSocket().removeAllListeners(['nextStage'])
-    // TODO: Implement Calls
-    // TODO: Implement Guesses
+    this.player.getSocket().removeAllListeners(['nextStage', 'exposeCard'])
   }
 
 }

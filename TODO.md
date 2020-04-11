@@ -1,16 +1,14 @@
 # High Level
-- Beeramid Logic
-  - Implement UI
-    - Make Player Hands
-    - Allow players to flip their own cards
-  - Implement Calls
-  - Implement Guesses
+- Implement Calls
+- Implement Guesses
 - Lobby and Game chat
+- Beeramid logging
 - Better server side logging
 - Save high scores
 - Change name
 
 # Bugs
+- Open two tabs on same device, close the second one, start game with first one
 - Bug where iPhone turns off and socket disconnects
 
 # Bro Bro
