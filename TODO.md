@@ -1,5 +1,4 @@
 # High Level
-- whole screen on iphone should have casino felt
 - Implement Calls
 - Implement Guesses
 - Lobby and Game chat
@@ -9,7 +8,6 @@
 - Change name
 
 # Bugs
-- Open two tabs on same device, close the second one, start game with first one
 - Bug where iPhone turns off and socket disconnects
 
 # Bro Bro

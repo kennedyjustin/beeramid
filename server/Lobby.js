@@ -60,6 +60,7 @@ module.exports = class Lobby {
         this.game.playerDisconnected(id)
         this.logPlayer('Disconnected player from on-going game', id, player.getUuid(), player.getName())
       } else {
+        this.players[index].removeListeners()
         this.players.splice(index, 1)
         this.logPlayer('Removed player from lobby', id, player.getUuid(), player.getName())
       }

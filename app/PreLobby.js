@@ -20,10 +20,11 @@ class PreLobby extends Component {
   enterName(event) {
     event.preventDefault()
     if (this.state.name) {
-      const cookies = new Cookies()
-      cookies.set('name', this.state.name, { path: '/' })
       this.state.socket.emit('name', {
         name: this.state.name
+      }, ack => {
+        const cookies = new Cookies()
+        cookies.set('name', this.state.name, { path: '/' })
       })
     }
   }

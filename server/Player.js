@@ -30,6 +30,11 @@ module.exports = class Player {
     this.socket.on('startGame', (data) => this.startGame(data.game, this.id))
   }
 
+  removeListeners() {
+    this.socket.removeAllListeners(['name'])
+    this.socket.removeAllListeners(['startGame'])
+  }
+
   getName() {
     return this.name
   }
