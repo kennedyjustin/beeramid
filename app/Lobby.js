@@ -46,14 +46,14 @@ class Lobby extends Component {
       startButtons = (
         <div>
           <Row>
-            <Col>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
               <Button variant="primary" onClick={this.startGame.bind(this)}>
                 Start Beeramid
               </Button>
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
               <Button variant="secondary" disabled>
                 Start Australia
               </Button>
@@ -71,12 +71,12 @@ class Lobby extends Component {
           loop={true}
         />
         <Row>
-          <Col>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
             <h1>Lobby</h1>
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
             <ListGroup>
               {lobbyList}
             </ListGroup>
