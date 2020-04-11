@@ -3,13 +3,13 @@ const BeeramidPlayer = require('./BeeramidPlayer')
 const Deck = require('./Deck')
 
 const NAME = 'Beeramid'
-const MAX_PLAYERS = 7
+const MAX_PLAYERS = 10
 const NUM_CARDS_IN_HAND = 3
 const NUM_CARDS_IN_PYRAMID = 12
-const FIRST_STAGE_WAIT_TIME_SECONDS = 15
+const FIRST_STAGE_WAIT_TIME_SECONDS = 15 // Must be larger than below
 const NORMAL_STAGE_WAIT_TIME_SECONDS = 5
 const REPLACE_EXPOSED_CARD_WAIT_TIME_SECONDS = 5
-const HIDE_REPLACE_CARD_WAIT_TIME_SECONDS = 5
+const HIDE_REPLACE_CARD_WAIT_TIME_SECONDS = 7
 
 module.exports = class Beeramid extends Game {
   constructor(players, hostId, endGame) {

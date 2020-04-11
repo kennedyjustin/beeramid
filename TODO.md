@@ -1,4 +1,8 @@
 # High Level
+- Rearrange cards in hand
+- Pic of Jeff on bud light racks
+- flash yellow when next card flipped
+- show own name
 - Implement Calls
 - Implement Guesses
 - Lobby and Game chat
@@ -6,6 +10,3 @@
 - Better server side logging
 - Save high scores
 - Change name
-
-# Bro Bro
-- Pic of Jeff on bud light racks

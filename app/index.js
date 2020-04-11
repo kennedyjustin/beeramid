@@ -7,6 +7,11 @@ import './index.css'
 import './assets/tpb.mp3'
 
 import './assets/felt.jpg'
+
+import './assets/jeff1.jpg'
+import './assets/jeff2.jpg'
+import './assets/jeff3.jpg'
+
 import './assets/10C.png'
 import './assets/10D.png'
 import './assets/10H.png'

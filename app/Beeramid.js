@@ -54,8 +54,10 @@ class Beeramid extends Component {
       players.push(player['name'])
     })
 
+    let finalHr
     let endButton
     if (this.state.isHost) {
+      finalHr = (<hr />)
       endButton = (
         <Button variant="primary" onClick={this.endGame.bind(this)}>
           End Game
@@ -82,7 +84,7 @@ class Beeramid extends Component {
             <PlayerHands players={this.state.players}/>
           </Col>
         </Row>
-        <hr />
+        {finalHr}
         <Row>
           <Col className="text-center">
             {endButton}
