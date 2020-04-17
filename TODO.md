@@ -1,4 +1,5 @@
 # High Level
+- Bug where if game is not ended, it never ends
 - Allow multiple full beer cards
 - Rearrange cards in hand
 - RICO

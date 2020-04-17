@@ -8,15 +8,9 @@ drink
 npm install
 ```
 
-### Run Dev Server
-
-Go to `http://localhost:3000/`
-
-```
-npm run dev
-```
-
 ### Run Production Server
+
+Go to https://localhost:3000
 
 ```
 npm run build
