@@ -1,5 +1,8 @@
 # High Level
+- Allow multiple full beer cards
 - Rearrange cards in hand
+- RICO
+- Discard pile shuffles back into deck
 - Pic of Jeff on bud light racks
 - flash yellow when next card flipped
 - show own name
