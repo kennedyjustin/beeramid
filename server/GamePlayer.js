@@ -3,7 +3,6 @@ module.exports = class GamePlayer {
     this.player = player
     this.isHost = false
     this.endGame = null
-    this.connected = true
 
     this.initializeListeners()
   }

@@ -54,7 +54,7 @@ module.exports = class Game {
   playerDisconnected(id) {
     const player = this.players.find(p => p.getId() === id)
 
-    if (this.players.length === 0) {
+    if (this.allPlayersDisconnected()) {
       this.endGame()
     } else {
       if (player.getIsHost()) {
@@ -71,6 +71,16 @@ module.exports = class Game {
     player.initializeListeners()
 
     this.triggerGameUpdate()
+  }
+
+  allPlayersDisconnected() {
+    let allDisconnected = true
+    this.players.forEach(player => {
+      if (player.getPlayer().getConnected() === true) {
+        allDisconnected = false
+      }
+    })
+    return allDisconnected
   }
 
   cleanupGame() {

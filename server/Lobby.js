@@ -126,7 +126,7 @@ module.exports = class Lobby {
     const name = this.game.getName()
     this.gamePlaying = false
     this.game.cleanupGame()
-    this.players.forEach(player => {
+    this.players.slice().forEach(player => {
       player.setInGame(false)
       if (!player.getConnected()) {
         this.removePlayer(player.getId())

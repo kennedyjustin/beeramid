@@ -1,16 +1,15 @@
 # High Level
-- Bug where if game is not ended, it never ends
+- Multiple Lobbies
+- Pic of Jeff on bud light racks
+- Better server side logging
+- Change name
+- Save high scores
+
+# Beeramid
 - Allow multiple full beer cards
 - Rearrange cards in hand
 - RICO
 - Discard pile shuffles back into deck
-- Pic of Jeff on bud light racks
 - flash yellow when next card flipped
 - show own name
-- Implement Calls
-- Implement Guesses
-- Lobby and Game chat
 - Beeramid logging
-- Better server side logging
-- Save high scores
-- Change name
