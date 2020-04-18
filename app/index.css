@@ -48,7 +48,7 @@
 }
 
 body {
- background-image: url("assets/felt.jpg");
+ background-image: url("/assets/felt.jpg");
  background-repeat: repeat;
  color: white;
 }

@@ -26,7 +26,8 @@ class App extends Component {
       socket: io({
         query: {
           uuid: uuid,
-          name: name
+          name: name,
+          lobbyName: window.location.pathname
         }
       }),
       name: name,
@@ -34,7 +35,8 @@ class App extends Component {
       gamePlaying: false,
       inGame: false,
       gameType: 'null',
-      tooManyPlayers: false
+      tooManyPlayers: false,
+      tooManyLobbies: false
     };
 
     this.state.socket.on('lobbyUpdate', (data) => this.lobbyUpdate(data))
@@ -47,7 +49,8 @@ class App extends Component {
       gamePlaying: data.gamePlaying,
       inGame: data.inGame,
       gameType: data.gameType,
-      tooManyPlayers: data.tooManyPlayers
+      tooManyPlayers: data.tooManyPlayers,
+      tooManyLobbies: data.tooManyLobbies
     })
   }
 
@@ -59,6 +62,16 @@ class App extends Component {
           <Row>
             <Col>
               <p>Too many players, please try again later.</p>
+            </Col>
+          </Row>
+        </Container>
+      )
+    } else if (this.state.tooManyLobbies) {
+      game = (
+        <Container fluid>
+          <Row>
+            <Col>
+              <p>Too many lobbies, please try again later.</p>
             </Col>
           </Row>
         </Container>

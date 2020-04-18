@@ -25,7 +25,7 @@ class Card extends Component {
 
   render() {
 
-    let value = 'assets/'
+    let value = '/assets/'
     if (this.state.hidden) {
       value += 'red_back'
     } else {

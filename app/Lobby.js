@@ -66,7 +66,7 @@ class Lobby extends Component {
     return (
       <Container fluid>
         <Sound
-          url="assets/tpb.mp3"
+          url="/assets/tpb.mp3"
           playStatus={Sound.status.PLAYING}
           loop={true}
         />

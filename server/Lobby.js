@@ -5,7 +5,8 @@ const LOBBY_PREFIX = 'LOBBY'
 const MAX_LOBBY_MEMBERS = 10
 
 module.exports = class Lobby {
-  constructor() {
+  constructor(name) {
+    this.name = name
     this.players = []
     this.game = null
     this.gamePlaying = false
@@ -69,6 +70,10 @@ module.exports = class Lobby {
     this.triggerLobbyUpdate()
   }
 
+  howManyPlayers() {
+    return this.players.length
+  }
+
   getAllPlayerInfo() {
     let players = []
     this.players.forEach(player => {
@@ -108,6 +113,7 @@ module.exports = class Lobby {
 
       console.log(
         LOBBY_PREFIX + ' - Started game:\n' +
+        '\tLobbyName ' + this.name + '\n' +
         '\tType: ' + gameName + '\n' +
         '\tHost: ' + this.game.getHostName() + '\n' +
         '\tPlayers: ' + this.game.getPlayerNames()
@@ -135,6 +141,7 @@ module.exports = class Lobby {
     this.game = null
     console.log(
       LOBBY_PREFIX + ' - Ended game:\n' +
+      '\tLobbyName ' + this.name + '\n' +
       '\tType: ' + name
     )
 
@@ -144,6 +151,7 @@ module.exports = class Lobby {
   logPlayer(logString, socketId, uuid, name) {
     console.log(
       LOBBY_PREFIX + ' - ' + logString + ':\n' +
+      '\tLobbyName ' + this.name + '\n' +
       '\tSocket ID: ' + socketId + '\n' +
       '\tUUID: ' + uuid + '\n' +
       '\tName: ' + name
