@@ -74,6 +74,10 @@ module.exports = class Lobby {
     return this.players.length
   }
 
+  getPlayerList() {
+    return this.players.map(player => player.getName())
+  }
+
   getAllPlayerInfo() {
     let players = []
     this.players.forEach(player => {

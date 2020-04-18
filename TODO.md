@@ -1,5 +1,9 @@
 # High Level
-- Pic of Jeff on bud light racks
+- Initial page
+  - Pic of Jeff on bud light racks
+  - Text bar to go to different lobby
+- Admin portal
+  - Daily active users
 - Better server side logging
 - Change name
 - Save high scores
@@ -14,3 +18,5 @@
 - Beeramid logging
 
 # Australia
+- Logic
+- UI

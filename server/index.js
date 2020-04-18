@@ -9,6 +9,7 @@ let io = socketIo(server)
 
 MAX_LOBBIES = 10
 MAX_LOBBYNAME_CHARACTERS = 20
+ADMIN_NAME = "/admin/"
 
 WHITELISTED_ROUTES = [
   'index.html',
@@ -54,12 +55,29 @@ app.get('/(:lobby)?(/*)?', function(req, res){
 
 const lobbyMap = {}
 
+function getAdminData() {
+  let adminData = {
+    lobbies: {}
+  }
+  Object.keys(lobbyMap).forEach(lobby => {
+    adminData['lobbies'][lobby] = lobbyMap[lobby].getPlayerList()
+  })
+  return adminData
+}
+
 io.on('connection', (socket) => {
   const uuid = socket.handshake.query.uuid
   const lobbyName = socket.handshake.query.lobbyName
   let name = socket.handshake.query.name
   if (name === 'null' || name === 'undefined') {
     name = null
+  }
+
+  if (lobbyName === ADMIN_NAME) {
+    socket.emit('lobbyUpdate', {
+      admin: getAdminData()
+    })
+    return
   }
 
   if (lobbyName.length > MAX_LOBBYNAME_CHARACTERS) {

@@ -35,7 +35,8 @@ class App extends Component {
       gamePlaying: false,
       inGame: false,
       gameType: 'null',
-      errorMessage: null
+      errorMessage: null,
+      admin: null,
     };
 
     this.state.socket.on('lobbyUpdate', (data) => this.lobbyUpdate(data))
@@ -48,13 +49,28 @@ class App extends Component {
       gamePlaying: data.gamePlaying,
       inGame: data.inGame,
       gameType: data.gameType,
-      errorMessage: data.errorMessage
+      errorMessage: data.errorMessage,
+      admin: data.admin
     })
   }
 
   render() {
     let game
-    if (this.state.errorMessage) {
+    if (this.state.admin) {
+      game = (
+        <Container fluid>
+          <Row>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+              {Object.keys(this.state.admin['lobbies']).map(l => {
+                return (
+                  <p>{l + ": " + this.state.admin['lobbies'][l]}</p>
+                )
+              })}
+            </Col>
+          </Row>
+        </Container>
+      )
+    } else if (this.state.errorMessage) {
       game = (
         <Container fluid>
           <Row>
