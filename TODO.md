@@ -12,3 +12,5 @@
 - flash yellow when next card flipped
 - show own name
 - Beeramid logging
+
+# Australia
