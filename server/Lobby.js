@@ -31,7 +31,7 @@ module.exports = class Lobby {
 
     if (this.players.length >= MAX_LOBBY_MEMBERS) {
       socket.emit('lobbyUpdate', {
-        tooManyPlayers: true
+        errorMessage: "Too many players, please try again later."
       })
       socket.disconnect(true)
       this.logPlayer('Too many players in lobby, rejecting connection', socket.id, uuid, name)

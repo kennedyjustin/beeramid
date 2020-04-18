@@ -8,6 +8,7 @@ let server = http.createServer(app)
 let io = socketIo(server)
 
 MAX_LOBBIES = 10
+MAX_LOBBYNAME_CHARACTERS = 20
 
 WHITELISTED_ROUTES = [
   'index.html',
@@ -61,10 +62,17 @@ io.on('connection', (socket) => {
     name = null
   }
 
+  if (lobbyName.length > MAX_LOBBYNAME_CHARACTERS) {
+    socket.emit('lobbyUpdate', {
+      errorMessage: "Lobby name has too many characters, try again."
+    })
+    return
+  }
+
   if (!lobbyMap[lobbyName]) {
     if (Object.keys(lobbyMap).length >= MAX_LOBBIES && lobbyName !== "/") {
       socket.emit('lobbyUpdate', {
-        tooManyLobbies: true
+        errorMessage: "Too many lobbies, please try again later."
       })
       return
     } else {

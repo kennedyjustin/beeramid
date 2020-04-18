@@ -35,8 +35,7 @@ class App extends Component {
       gamePlaying: false,
       inGame: false,
       gameType: 'null',
-      tooManyPlayers: false,
-      tooManyLobbies: false
+      errorMessage: null
     };
 
     this.state.socket.on('lobbyUpdate', (data) => this.lobbyUpdate(data))
@@ -49,29 +48,18 @@ class App extends Component {
       gamePlaying: data.gamePlaying,
       inGame: data.inGame,
       gameType: data.gameType,
-      tooManyPlayers: data.tooManyPlayers,
-      tooManyLobbies: data.tooManyLobbies
+      errorMessage: data.errorMessage
     })
   }
 
   render() {
     let game
-    if (this.state.tooManyPlayers) {
+    if (this.state.errorMessage) {
       game = (
         <Container fluid>
           <Row>
-            <Col>
-              <p>Too many players, please try again later.</p>
-            </Col>
-          </Row>
-        </Container>
-      )
-    } else if (this.state.tooManyLobbies) {
-      game = (
-        <Container fluid>
-          <Row>
-            <Col>
-              <p>Too many lobbies, please try again later.</p>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+              <p>{this.state.errorMessage}</p>
             </Col>
           </Row>
         </Container>
