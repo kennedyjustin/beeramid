@@ -1,12 +1,14 @@
 const express = require("express")
 const http = require("http")
 const socketIo = require('socket.io')
+const schedule = require('node-schedule')
 const Lobby = require('./Lobby')
 
 let app = express()
 let server = http.createServer(app)
 let io = socketIo(server)
 
+// Constants
 MAX_LOBBIES = 10
 MAX_LOBBYNAME_CHARACTERS = 20
 ADMIN_NAME = "/admin/"
@@ -19,6 +21,11 @@ WHITELISTED_ROUTES = [
 
 ASSETS_ROUTE = "assets"
 
+// Data Structures
+const lobbyMap = {}
+let dailyActiveUsers = []
+
+// Express Server
 app.get('/(:lobby)?(/*)?', function(req, res){
     let lobbyName = req.params.lobby
     let path = req.params[0]
@@ -53,19 +60,9 @@ app.get('/(:lobby)?(/*)?', function(req, res){
     res.sendFile(path, { root: './public' })
 });
 
-const lobbyMap = {}
-
-function getAdminData() {
-  let adminData = {
-    lobbies: {}
-  }
-  Object.keys(lobbyMap).forEach(lobby => {
-    adminData['lobbies'][lobby] = lobbyMap[lobby].getPlayerList()
-  })
-  return adminData
-}
-
+// Socket IO
 io.on('connection', (socket) => {
+  // Get Socket Information
   const uuid = socket.handshake.query.uuid
   const lobbyName = socket.handshake.query.lobbyName
   let name = socket.handshake.query.name
@@ -73,6 +70,7 @@ io.on('connection', (socket) => {
     name = null
   }
 
+  // Admin Portal Information
   if (lobbyName === ADMIN_NAME) {
     socket.emit('lobbyUpdate', {
       admin: getAdminData()
@@ -80,6 +78,7 @@ io.on('connection', (socket) => {
     return
   }
 
+  // Validation
   if (lobbyName.length > MAX_LOBBYNAME_CHARACTERS) {
     socket.emit('lobbyUpdate', {
       errorMessage: "Lobby name has too many characters, try again."
@@ -87,6 +86,7 @@ io.on('connection', (socket) => {
     return
   }
 
+  // Create Lobby if needed
   if (!lobbyMap[lobbyName]) {
     if (Object.keys(lobbyMap).length >= MAX_LOBBIES && lobbyName !== "/") {
       socket.emit('lobbyUpdate', {
@@ -94,10 +94,11 @@ io.on('connection', (socket) => {
       })
       return
     } else {
-      lobbyMap[lobbyName] = new Lobby(lobbyName)
+      lobbyMap[lobbyName] = new Lobby(lobbyName, dailyActiveUsers)
     }
   }
 
+  // Add Player to Lobby
   const lobby = lobbyMap[lobbyName]
   lobby.addPlayer(socket, uuid, name)
   socket.on('disconnect', () => {
@@ -108,4 +109,24 @@ io.on('connection', (socket) => {
   })
 })
 
+// Admin Portal Data
+function getAdminData() {
+  let adminData = {
+    lobbies: {},
+    dailyActiveUsers: dailyActiveUsers.length
+  }
+  Object.keys(lobbyMap).forEach(lobby => {
+    adminData['lobbies'][lobby] = lobbyMap[lobby].getPlayerList()
+  })
+  return adminData
+}
+
+// Schedules
+schedule.scheduleJob('0 0 * * *', () => {
+  const date = new Date()
+  console.log(dailyActiveUsers.length + ' Daily Active Users on ' + date.toString())
+  dailyActiveUsers = []
+})
+
+// Run Server
 server.listen(3000,  () => console.log("Running Beeramid Server"))

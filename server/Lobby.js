@@ -5,11 +5,12 @@ const LOBBY_PREFIX = 'LOBBY'
 const MAX_LOBBY_MEMBERS = 10
 
 module.exports = class Lobby {
-  constructor(name) {
+  constructor(name, dailyActiveUsers) {
     this.name = name
     this.players = []
     this.game = null
     this.gamePlaying = false
+    this.dailyActiveUsers = dailyActiveUsers
   }
 
   addPlayer(socket, uuid, name) {
@@ -123,6 +124,8 @@ module.exports = class Lobby {
         '\tPlayers: ' + this.game.getPlayerNames()
       )
 
+      this.addToDailyActiveUsers()
+
       this.triggerLobbyUpdate()
       this.game.triggerGameUpdate()
     }
@@ -150,6 +153,14 @@ module.exports = class Lobby {
     )
 
     this.triggerLobbyUpdate()
+  }
+
+  addToDailyActiveUsers() {
+    this.players.forEach(player => {
+      if (!this.dailyActiveUsers.includes(player.getName())) {
+        this.dailyActiveUsers.push(player.getName())
+      }
+    })
   }
 
   logPlayer(logString, socketId, uuid, name) {
