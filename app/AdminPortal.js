@@ -32,7 +32,7 @@ class AdminPortal extends Component {
           lobbyName = l.slice(1,-1)
         }
         return (
-          <p>{lobbyName + ": " + this.state.lobbies[l]}</p>
+          <p>{lobbyName + ": " + this.state.lobbies[l].join(', ')}</p>
         )
       })
     }
