@@ -5,11 +5,13 @@ import Cookies from 'universal-cookie'
 import { v4 as uuidv4 } from 'uuid'
 import PreLobby from './PreLobby'
 import Lobby from './Lobby'
+import AdminPortal from './AdminPortal'
+import ErrorMessage from './ErrorMessage'
 import Beeramid from './Beeramid'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
 
     let uuid = null
     let name = null
@@ -58,27 +60,11 @@ class App extends Component {
     let game
     if (this.state.admin) {
       game = (
-        <Container fluid>
-          <Row>
-            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-              {Object.keys(this.state.admin['lobbies']).map(l => {
-                return (
-                  <p>{l + ": " + this.state.admin['lobbies'][l]}</p>
-                )
-              })}
-            </Col>
-          </Row>
-        </Container>
+        <AdminPortal data={this.state.admin} />
       )
     } else if (this.state.errorMessage) {
       game = (
-        <Container fluid>
-          <Row>
-            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-              <p>{this.state.errorMessage}</p>
-            </Col>
-          </Row>
-        </Container>
+        <ErrorMessage message={this.state.errorMessage} />
       )
     } else if (!this.state.inGame) {
       if (this.state.name) {
@@ -107,7 +93,7 @@ class App extends Component {
           break
         default:
           game = (
-            <h1>Unknown Game</h1>
+            <ErrorMessage message="Unknown Game" />
           )
       }
     }
