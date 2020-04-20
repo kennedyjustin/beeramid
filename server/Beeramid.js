@@ -45,7 +45,11 @@ module.exports = class Beeramid extends Game {
       return
     }
 
-    this.stage++
+    if (this.stage === NUM_CARDS_IN_PYRAMID) {
+      this.newLastCard()
+    } else {
+      this.stage++
+    }
     this.stageStartTime = Date.now()
 
     this.triggerGameUpdate()
@@ -98,6 +102,12 @@ module.exports = class Beeramid extends Game {
     }
 
     this.triggerGameUpdate()
+  }
+
+  newLastCard() {
+    if (!this.deck.isEmpty()) {
+      this.pyramid[NUM_CARDS_IN_PYRAMID - 1] = this.deck.getCards(1)
+    }
   }
 
   setCustomEventHandlers(player) {

@@ -7,7 +7,6 @@
 - Save high scores
 
 # Beeramid
-- Allow multiple full beer cards
 - Rearrange cards in hand
 - RICO
 - Discard pile shuffles back into deck

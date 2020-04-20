@@ -75,7 +75,7 @@ class Beeramid extends Component {
         <hr />
         <Row>
           <Col>
-            <Hand cards={this.state.cards} exposeCard={this.state.stage > 0 ? this.exposeCard.bind(this): null} />
+            <Hand cards={this.state.cards} exposeCard={this.state.stage > 0 ? this.exposeCard.bind(this) : null} />
           </Col>
         </Row>
         <hr />

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 import Card from './Card'
 
+const LAST_CARD_INDEX = 12
+
 class Pyramid extends Component {
   constructor(props) {
     super(props)
@@ -27,7 +29,7 @@ class Pyramid extends Component {
 
   getAttributes(index) {
     let attributes = {}
-    if (index == this.state.pyramid.length) {
+    if (index == this.state.pyramid.length || LAST_CARD_INDEX === this.state.pyramid.length) {
       attributes["onClick"] = () => {
         this.state.nextStage()
       }

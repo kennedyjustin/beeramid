@@ -71,7 +71,6 @@ module.exports = class BeeramidPlayer extends GamePlayer {
   }
 
   removeCustomListeners() {
-    console.log('removing custom listeners')
     this.player.getSocket().removeAllListeners(['nextStage'])
     this.player.getSocket().removeAllListeners(['exposeCard'])
   }

@@ -122,7 +122,7 @@ function getAdminData() {
 }
 
 // Schedules
-schedule.scheduleJob('0 0 * * *', () => {
+schedule.scheduleJob('0 4 * * *', () => {
   const date = new Date()
   console.log(dailyActiveUsers.length + ' Daily Active Users on ' + date.toString())
   dailyActiveUsers = []
