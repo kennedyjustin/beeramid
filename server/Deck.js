@@ -2,8 +2,10 @@ const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 const SUITS = ['S', 'H', 'C', 'D']
 
 module.exports = class Deck {
-  constructor() {
+  constructor(shuffleBackInDiscardPile) {
     this.cards = []
+    this.discardPile = []
+    this.shuffleBackInDiscardPile = shuffleBackInDiscardPile
     this.initializeDeck()
     this.shuffle()
   }
@@ -30,6 +32,10 @@ module.exports = class Deck {
   }
 
   getCards(n) {
+    if (this.isEmpty() && this.shuffleBackInDiscardPile == true) {
+      this.shuffleBackIn()
+    }
+
     if (n === 1) {
       return this.cards.pop()
     } else {
@@ -41,7 +47,21 @@ module.exports = class Deck {
     }
   }
 
+  addToDiscardPile(card) {
+    this.discardPile.push(card)
+  }
+
+  shuffleBackIn() {
+    this.cards = this.discardPile.slice()
+    this.discardPile = []
+    this.shuffle()
+  }
+
   isEmpty() {
     return this.cards.length === 0
+  }
+
+  isReallyEmpty() {
+    return this.cards.length === 0 && this.discardPile.length === 0
   }
 }

@@ -9,7 +9,6 @@
 # Beeramid
 - Rearrange cards in hand
 - RICO
-- Discard pile shuffles back into deck
 - flash yellow when next card flipped
 - show own name
 - Beeramid logging

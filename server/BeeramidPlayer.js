@@ -37,7 +37,11 @@ module.exports = class BeeramidPlayer extends GamePlayer {
   replace(index, card) {
     card['expose'] = false
     card['new'] = true
+    const oldCard = this.cards[index]
+    oldCard['expose'] = false
+    oldCard['new'] = false
     this.cards[index] = card
+    return oldCard
   }
 
   hide(index) {

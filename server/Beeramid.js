@@ -14,7 +14,7 @@ const HIDE_REPLACE_CARD_WAIT_TIME_SECONDS = 7
 module.exports = class Beeramid extends Game {
   constructor(players, hostId, endGame) {
     super(BeeramidPlayer, MAX_PLAYERS, players, hostId, endGame)
-    this.deck = new Deck()
+    this.deck = new Deck(true)
     this.pyramid = []
     this.stage = -1
     this.cardsHidden = false
@@ -63,7 +63,7 @@ module.exports = class Beeramid extends Game {
   }
 
   anyCardsExposedOrNew() {
-    if (this.deck.isEmpty()) {
+    if (this.deck.isReallyEmpty()) {
       return false
     }
 
@@ -83,10 +83,10 @@ module.exports = class Beeramid extends Game {
       return
     }
 
-    if (this.stage !== NUM_CARDS_IN_PYRAMID && !this.deck.isEmpty()) {
+    if (this.stage !== NUM_CARDS_IN_PYRAMID && !this.deck.isReallyEmpty()) {
       setTimeout(() => {
 
-        player.replace(index, this.deck.getCards(1))
+        this.deck.addToDiscardPile(player.replace(index, this.deck.getCards(1)))
         setTimeout(() => {
 
           player.hide(index)
@@ -105,7 +105,7 @@ module.exports = class Beeramid extends Game {
   }
 
   newLastCard() {
-    if (!this.deck.isEmpty()) {
+    if (!this.deck.isReallyEmpty()) {
       this.pyramid[NUM_CARDS_IN_PYRAMID - 1] = this.deck.getCards(1)
     }
   }
