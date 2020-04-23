@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Container, Row, Col, ListGroup, Button, Form } from 'react-bootstrap'
 import Sound from 'react-sound'
 
+const GAMES = [
+  { name: 'Beeramid', enabled: true },
+  { name: 'Australia', enabled: false }
+]
+
 class Lobby extends Component {
   constructor(props) {
     super(props)
@@ -24,7 +29,7 @@ class Lobby extends Component {
   startGame(event) {
     event.preventDefault()
     this.state.socket.emit('startGame', {
-      game: 'Beeramid'
+      game: event.target.id
     })
   }
 
@@ -43,24 +48,22 @@ class Lobby extends Component {
 
     let startButtons
     if (lobbyMembers >= 2 && !this.state.gamePlaying) {
-      startButtons = (
-        <div>
+      startButtons = GAMES.map(game => {
+        return (
           <Row>
             <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-              <Button variant="primary" onClick={this.startGame.bind(this)}>
-                Start Beeramid
+              <Button
+                id={game['name']}
+                variant={game['enabled'] ? 'primary' : 'secondary'}
+                disabled={game['enabled'] ? false : true}
+                onClick={this.startGame.bind(this)}
+              >
+                {'Start ' + game['name']}
               </Button>
             </Col>
           </Row>
-          <Row>
-            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-              <Button variant="secondary" disabled>
-                Start Australia
-              </Button>
-            </Col>
-          </Row>
-        </div>
-      )
+        )
+      })
     }
 
     return (
