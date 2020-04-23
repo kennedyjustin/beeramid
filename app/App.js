@@ -8,6 +8,12 @@ import Lobby from './Lobby'
 import AdminPortal from './AdminPortal'
 import ErrorMessage from './ErrorMessage'
 import Beeramid from './Beeramid'
+import Australia from './Australia'
+
+const GAMES = {
+  'Beeramid': { app: Beeramid, enabled: true },
+  'Australia': { app: Australia, enabled: false }
+}
 
 class App extends Component {
   constructor() {
@@ -74,6 +80,7 @@ class App extends Component {
             name={this.state.name}
             players={this.state.players}
             gamePlaying={this.state.gamePlaying}
+            games={GAMES}
           />
         )
       } else {
@@ -82,19 +89,19 @@ class App extends Component {
         )
       }
     } else {
-      switch (this.state.gameType) {
-        case 'Beeramid':
-          game = (
-            <Beeramid
-              socket={this.state.socket}
-              name={this.state.name}
-            />
-          )
-          break
-        default:
-          game = (
-            <ErrorMessage message="Unknown Game" />
-          )
+      const gameType = GAMES[this.state.gameType]
+      if (gameType) {
+        const GameType = gameType['app']
+        game = (
+          <GameType
+            name={this.state.name}
+            socket={this.state.socket}
+          />
+        )
+      } else {
+        game = (
+          <ErrorMessage message="Unknown Game" />
+        )
       }
     }
 

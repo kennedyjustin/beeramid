@@ -1,5 +1,9 @@
 const Player = require('./Player')
-const Beeramid = require('./Beeramid')
+
+const GAMES = {
+  'Beeramid': require('./Beeramid'),
+  'Australia': require('./Australia')
+}
 
 const LOBBY_PREFIX = 'LOBBY'
 const MAX_LOBBY_MEMBERS = 10
@@ -104,14 +108,7 @@ module.exports = class Lobby {
   }
 
   startGame(gameName, hostId) {
-    let game
-    switch(gameName) {
-      case 'Beeramid':
-        game = Beeramid
-        break
-      default:
-    }
-
+    const game = GAMES[gameName]
     if (game) {
       this.gamePlaying = true
       this.game = new game(this.players, hostId, this.endGame.bind(this))

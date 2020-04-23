@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { Container, Row, Col, ListGroup, Button, Form } from 'react-bootstrap'
 import Sound from 'react-sound'
 
-const GAMES = [
-  { name: 'Beeramid', enabled: true },
-  { name: 'Australia', enabled: false }
-]
-
 class Lobby extends Component {
   constructor(props) {
     super(props)
@@ -14,15 +9,18 @@ class Lobby extends Component {
       socket: props.socket,
       name: props.name,
       players: props.players,
-      gamePlaying: props.gamePlaying
+      gamePlaying: props.gamePlaying,
+      games: props.games
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
+      socket: nextProps.socket,
       name: nextProps.name,
       players: nextProps.players,
-      gamePlaying: nextProps.gamePlaying
+      gamePlaying: nextProps.gamePlaying,
+      games: nextProps.games
     });
   }
 
@@ -48,17 +46,17 @@ class Lobby extends Component {
 
     let startButtons
     if (lobbyMembers >= 2 && !this.state.gamePlaying) {
-      startButtons = GAMES.map(game => {
+      startButtons = Object.keys(this.state.games).map(game => {
         return (
           <Row>
             <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
               <Button
-                id={game['name']}
-                variant={game['enabled'] ? 'primary' : 'secondary'}
-                disabled={game['enabled'] ? false : true}
+                id={game}
+                variant={this.state.games[game]['enabled'] ? 'primary' : 'secondary'}
+                disabled={this.state.games[game]['enabled'] ? false : true}
                 onClick={this.startGame.bind(this)}
               >
-                {'Start ' + game['name']}
+                {'Start ' + game}
               </Button>
             </Col>
           </Row>
