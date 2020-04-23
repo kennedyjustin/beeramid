@@ -42,9 +42,9 @@ class Australia extends Component {
       <Container fluid>
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
-            <h1>{'Name: ' + this.state.name}</h1>
-            <h1>{'IsHost: ' + this.state.isHost}</h1>
-            <h1>{'Players: ' + JSON.stringify(this.state.players)}</h1>
+            <h3>{'Name: ' + this.state.name}</h3>
+            <h3>{'IsHost: ' + this.state.isHost}</h3>
+            <h3>{'Players: ' + JSON.stringify(this.state.players)}</h3>
           </Col>
         </Row>
         {finalHr}

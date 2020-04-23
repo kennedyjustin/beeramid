@@ -64,6 +64,7 @@ class App extends Component {
 
   render() {
     let game
+    let title = 'Beeramid'
     if (this.state.admin) {
       game = (
         <AdminPortal data={this.state.admin} />
@@ -91,6 +92,7 @@ class App extends Component {
     } else {
       const gameType = GAMES[this.state.gameType]
       if (gameType) {
+        title = this.state.gameType
         const GameType = gameType['app']
         game = (
           <GameType
@@ -108,7 +110,7 @@ class App extends Component {
     return (
       <div>
         <Navbar bg="dark" variant="dark"><Navbar.Brand>
-          Beeramid
+          {title}
         </Navbar.Brand></Navbar>
         {game}
       </div>
