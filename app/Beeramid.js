@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import Pyramid from './Pyramid'
-import Hand from './Hand'
-import PlayerHands from './PlayerHands'
+import BeeramidHand from './BeeramidHand'
+import BeeramidPlayerHands from './BeeramidPlayerHands'
 
 class Beeramid extends Component {
   constructor(props) {
@@ -75,13 +75,13 @@ class Beeramid extends Component {
         <hr />
         <Row>
           <Col>
-            <Hand cards={this.state.cards} exposeCard={this.state.stage > 0 ? this.exposeCard.bind(this) : null} />
+            <BeeramidHand cards={this.state.cards} exposeCard={this.state.stage > 0 ? this.exposeCard.bind(this) : null} />
           </Col>
         </Row>
         <hr />
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
-            <PlayerHands players={this.state.players}/>
+            <BeeramidPlayerHands players={this.state.players}/>
           </Col>
         </Row>
         {finalHr}

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import DeckAndPickupPile from './DeckAndPickupPile'
+import AustraliaHand from './AustraliaHand'
+import AustraliaCards from './AustraliaCards'
+import AustraliaPlayers from './AustraliaPlayers'
 
 class Australia extends Component {
   constructor(props) {
@@ -8,7 +12,18 @@ class Australia extends Component {
       socket: props.socket,
       name: props.name,
       players: [],
-      isHost: false
+      isHost: false,
+      hand: [],
+      pickupPile: [],
+      deckLeft: 52,
+      topCards: [null, null, null],
+      currentPlayer: false,
+      previousPlayer: false,
+      ready: false,
+      selectedCards: {
+        'hand': [],
+        'topCards': []
+      }
     }
 
     this.state.socket.on('gameUpdate', (data) => this.gameUpdate(data))
@@ -18,7 +33,14 @@ class Australia extends Component {
     this.setState({
       name: data.name,
       players: data.players,
-      isHost: data.isHost
+      isHost: data.isHost,
+      hand: data.hand,
+      pickupPile: data.pickupPile,
+      deckLeft: data.deckLeft,
+      topCards: data.topCards,
+      currentPlayer: data.currentPlayer,
+      previousPlayer: data.previousPlayer,
+      ready: data.ready
     })
   }
 
@@ -26,7 +48,110 @@ class Australia extends Component {
     this.state.socket.emit('endGame', {})
   }
 
+  flipFirstCard() {
+    if (!this.state.ready) {
+      return
+    }
+    this.state.socket.emit('flipFirstCard', {})
+  }
+
+  setTopCards() {
+    if (this.state.selectedCards['hand'].length < 3) {
+      return
+    }
+    this.state.socket.emit('setTopCards', {
+      indices: this.state.selectedCards['hand']
+    })
+    this.setState({
+      selectedCards: {
+        'hand': [],
+        'topCards': []
+      }
+    })
+  }
+
+  pickup() {
+    this.state.socket.emit('pickup', {})
+  }
+
+  play() {
+    this.state.socket.emit('play', {
+      'hand': this.state.selectedCards['hand'],
+      'topCards': this.state.selectedCards['topCards']
+    })
+    this.setState({
+      selectedCards: {
+        'hand': [],
+        'topCards': []
+      }
+    })
+  }
+
+  selectCard(where, cardIndex) {
+    if (this.state.ready && where === 'topCards') {
+      if (this.state.topCards.every(card => card === null)) {
+        // TODO: only allow if entire hand is gone, and only allow one at a time
+      } else {
+        // TODO: only allow if hand is gone, or all cards from hand are selected (and they are the same rank)
+      }
+    }
+
+    const selectedCards = {}
+    selectedCards['hand'] = this.state.selectedCards['hand'].slice()
+    selectedCards['topCards'] = this.state.selectedCards['topCards'].slice()
+
+    if (this.state.selectedCards[where].includes(cardIndex)) {
+      const i = this.state.selectedCards[where].indexOf(cardIndex)
+      selectedCards[where].splice(i, 1)
+      this.setState({
+        selectedCards: selectedCards
+      })
+    } else {
+      if (!this.state.ready && (where !== 'hand' || this.state.selectedCards['hand'].length >= 3)) {
+        return
+      }
+      selectedCards[where] = selectedCards[where].concat(cardIndex)
+      this.setState({
+        selectedCards: selectedCards
+      })
+    }
+  }
+
   render() {
+    let setOrPlayButton
+    if (this.state.ready) {
+      if (this.state.selectedCards['hand'].length > 0 || this.state.selectedCards['topCards'].length > 0) {
+        let setOrPlayButtonName
+        if (this.state.selectedCards['hand'].length + this.state.selectedCards['topCards'].length > 1) {
+          setOrPlayButtonName = 'Play Cards'
+        } else {
+          setOrPlayButtonName = 'Play Card'
+        }
+        setOrPlayButton = (
+          <Row>
+            <Col className="text-center">
+              <Button variant="primary" onClick={this.play.bind(this)}>
+                {setOrPlayButtonName}
+              </Button>
+            </Col>
+          </Row>
+
+        )
+      }
+    } else {
+      if (this.state.selectedCards['hand'].length === 3) {
+        setOrPlayButton = (
+          <Row>
+            <Col className="text-center">
+              <Button variant="primary" onClick={this.setTopCards.bind(this)}>
+                Set Top Cards
+              </Button>
+            </Col>
+          </Row>
+        )
+      }
+    }
+
     let finalHr
     let endButton
     if (this.state.isHost) {
@@ -42,9 +167,48 @@ class Australia extends Component {
       <Container fluid>
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
-            <h3>{'Name: ' + this.state.name}</h3>
-            <h3>{'IsHost: ' + this.state.isHost}</h3>
-            <h3>{'Players: ' + JSON.stringify(this.state.players)}</h3>
+            <DeckAndPickupPile
+              flipFirstCard={this.flipFirstCard.bind(this)}
+              pickup={this.pickup.bind(this)}
+              deckLeft={this.state.deckLeft}
+              pickupPile={this.state.pickupPile}
+            />
+          </Col>
+        </Row>
+        <hr />
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <p>Final Cards:</p>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <AustraliaCards
+              selectCard={this.selectCard.bind(this)}
+              topCards={this.state.topCards}
+              selectedCards={this.state.selectedCards['topCards']}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <p>Hand:</p>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <AustraliaHand
+              selectCard={this.selectCard.bind(this)}
+              hand={this.state.hand}
+              selectedCards={this.state.selectedCards['hand']}
+            />
+          </Col>
+        </Row>
+        {setOrPlayButton}
+        <hr />
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <AustraliaPlayers />
           </Col>
         </Row>
         {finalHr}

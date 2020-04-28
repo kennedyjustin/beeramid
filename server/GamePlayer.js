@@ -3,6 +3,7 @@ module.exports = class GamePlayer {
     this.player = player
     this.isHost = false
     this.endGame = null
+    this.triggerGameUpdate = null
 
     this.initializeListeners()
   }
@@ -29,6 +30,10 @@ module.exports = class GamePlayer {
 
   setEndGame(endGame) {
     this.endGame = endGame
+  }
+
+  setTriggerGameUpdate(triggerGameUpdate) {
+    this.triggerGameUpdate = triggerGameUpdate
   }
 
   getPlayer() {

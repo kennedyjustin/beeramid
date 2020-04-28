@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
-import Hand from './Hand'
+import BeeramidHand from './BeeramidHand'
 
-class PlayerHands extends Component {
+class BeeramidPlayerHands extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -34,7 +34,7 @@ class PlayerHands extends Component {
             {playerName}
           </Col>
           <Col xs="auto">
-            <Hand cards={player['cards']} />
+            <BeeramidHand cards={player['cards']} />
           </Col>
         </Row>
       )
@@ -48,4 +48,4 @@ class PlayerHands extends Component {
   }
 }
 
-export default PlayerHands
+export default BeeramidPlayerHands

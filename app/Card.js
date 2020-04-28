@@ -9,7 +9,9 @@ class Card extends Component {
       suit: props.suit,
       hidden: props.hidden,
       new: props.new,
-      index: props.index
+      index: props.index,
+      deckLeft: props.deckLeft,
+      selected: props.selected
     }
   }
 
@@ -19,7 +21,9 @@ class Card extends Component {
       suit: nextProps.suit,
       hidden: nextProps.hidden,
       new: nextProps.new,
-      index: nextProps.index
+      index: nextProps.index,
+      deckLeft: nextProps.deckLeft,
+      selected: nextProps.selected
     });
   }
 
@@ -38,10 +42,20 @@ class Card extends Component {
       classes += ' new-card'
     }
 
+    if (this.state.selected) {
+      classes += ' selected-card'
+    }
+
     let style = {}
     if (this.state.index !== undefined) {
       classes += ' flip-card'
       style['animation-delay'] = this.state.index + '00ms'
+    }
+
+    if (this.state.deckLeft) {
+      const px = (this.state.deckLeft / 52) * 10
+      style['box-shadow'] = px + 'px 0px #949495'
+      style['margin-right'] = (px + 5) + 'px'
     }
 
     return (

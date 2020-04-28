@@ -65,3 +65,12 @@ hr {
 .btn {
   border-color: white;
 }
+
+.deck {
+  box-shadow: 10px 0px #949495;
+  margin-right: 15px;
+}
+
+.selected-card {
+  border: 2px solid yellow;
+}

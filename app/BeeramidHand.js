@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 import Card from './Card'
 
-class Hand extends Component {
+class BeeramidHand extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -56,4 +56,4 @@ class Hand extends Component {
   }
 }
 
-export default Hand
+export default BeeramidHand

@@ -36,6 +36,7 @@ module.exports = class Game {
 
   setEventHandlers(player) {
     player.setEndGame(this.endGame)
+    player.setTriggerGameUpdate(this.triggerGameUpdate.bind(this))
     this.setCustomEventHandlers(player)
   }
 

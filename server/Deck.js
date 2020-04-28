@@ -31,6 +31,10 @@ module.exports = class Deck {
     }
   }
 
+  cardsLeft() {
+    return this.cards.length
+  }
+
   getCards(n) {
     if (this.isEmpty() && this.shuffleBackInDiscardPile == true) {
       this.shuffleBackIn()
