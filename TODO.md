@@ -15,9 +15,10 @@
 
 # Australia
 - UI
-  - Design other players
+  - Who is current player
   - Clean up edges
   - Design clear animation
 - Logic
   - Implement Play Logic
+  - Sort cards
   - Implement Rounds

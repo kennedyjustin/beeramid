@@ -38,7 +38,7 @@ class DeckAndPickupPile extends Component {
     if (this.state.pickupPile.length > MAX_PICKUP_CARDS) {
       const text = '+ ' + (this.state.pickupPile.length - MAX_PICKUP_CARDS)
       howManyLeft = (
-        <Col xs="auto" className="pickup-pile-extra">
+        <Col xs="auto" className="extra-cards-left">
           {text}
         </Col>
       )

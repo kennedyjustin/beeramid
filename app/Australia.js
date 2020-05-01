@@ -231,7 +231,9 @@ class Australia extends Component {
         <hr />
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <AustraliaPlayers />
+            <AustraliaPlayers
+              players={this.state.players}
+            />
           </Col>
         </Row>
         {finalHr}
