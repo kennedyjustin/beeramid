@@ -15,10 +15,9 @@
 
 # Australia
 - UI
-  - Pickup Pile clickable
-  - Design Pickup Pile
   - Design other players
   - Clean up edges
+  - Design clear animation
 - Logic
   - Implement Play Logic
   - Implement Rounds

@@ -74,3 +74,7 @@ hr {
 .selected-card {
   border: 2px solid yellow;
 }
+
+.pickup-pile-extra {
+  margin-left: 5px
+}

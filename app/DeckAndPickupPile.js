@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 import Card from './Card'
 
+const MAX_PICKUP_CARDS = 4
+
 class DeckAndPickupPile extends Component {
   constructor(props) {
     super(props)
@@ -24,16 +26,27 @@ class DeckAndPickupPile extends Component {
 
   render() {
 
-    const pickupPile = this.state.pickupPile.map(card => {
-      //TODO: Make Pickup pile clickable, figure out design
+    const pickupPile = this.state.pickupPile.slice(0, MAX_PICKUP_CARDS).map(card => {
       return (
-        <Card rank={card['rank']} suit={card['suit']}/>
+        <a onClick={this.state.pickup}>
+          <Card rank={card['rank']} suit={card['suit']}/>
+        </a>
       )
     })
 
+    let howManyLeft
+    if (this.state.pickupPile.length > MAX_PICKUP_CARDS) {
+      const text = '+ ' + (this.state.pickupPile.length - MAX_PICKUP_CARDS)
+      howManyLeft = (
+        <Col xs="auto" className="pickup-pile-extra">
+          {text}
+        </Col>
+      )
+    }
+
     return (
       <Container>
-        <Row noGutters className="justify-content-start">
+        <Row noGutters className="justify-content-start align-items-center">
           <Col xs="auto">
             <a onClick={this.state.flipFirstCard}>
               <Card hidden deckLeft={this.state.deckLeft} />
@@ -42,6 +55,7 @@ class DeckAndPickupPile extends Component {
           <Col xs="auto">
             {pickupPile}
           </Col>
+          {howManyLeft}
         </Row>
       </Container>
     )
