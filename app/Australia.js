@@ -90,9 +90,13 @@ class Australia extends Component {
   selectCard(where, cardIndex) {
     if (this.state.ready && where === 'topCards') {
       if (this.state.topCards.every(card => card === null)) {
-        // TODO: only allow if entire hand is gone, and only allow one at a time
+        if (!this.canBottomCardBeSelected()) {
+          return
+        }
       } else {
-        // TODO: only allow if hand is gone, or all cards from hand are selected (and they are the same rank)
+        if (!this.canTopCardBeSelected(cardIndex)) {
+          return
+        }
       }
     }
 
@@ -114,6 +118,25 @@ class Australia extends Component {
       this.setState({
         selectedCards: selectedCards
       })
+    }
+  }
+
+  canBottomCardBeSelected() {
+    return this.state.hand.length != 0 || this.state.selectedCards['topCards'].length >= 1
+  }
+
+  canTopCardBeSelected(cardIndex) {
+    if (this.state.hand.length == 0) {
+      return true
+    }
+
+    const allCardsInHandSelected = this.state.hand.length == this.state.selectedCards['hand'].length
+    const allCardsInHandSameAsTopCard = this.state.hand.every(c => c['rank'] == this.state.topCards[cardIndex]['rank'])
+
+    if (allCardsInHandSelected && allCardsInHandSameAsTopCard) {
+      return true
+    } else {
+      return false
     }
   }
 

@@ -15,7 +15,6 @@
 
 # Australia
 - UI
-  - Selection validation (top cards and bottom cards)
   - Pickup Pile clickable
   - Design Pickup Pile
   - Design other players
