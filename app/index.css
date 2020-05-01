@@ -78,3 +78,13 @@ hr {
 .extra-cards-left {
   margin-left: 5px
 }
+
+.current-player {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

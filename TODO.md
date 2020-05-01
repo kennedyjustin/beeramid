@@ -15,7 +15,6 @@
 
 # Australia
 - UI
-  - Who is current player
   - Clean up edges
   - Design clear animation
 - Logic

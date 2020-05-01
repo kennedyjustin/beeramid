@@ -46,11 +46,16 @@ class AustraliaPlayers extends Component {
         }
       })
 
+      let playerNameAttributes = {}
+      if (player['currentPlayer']) {
+        playerNameAttributes['className'] = 'current-player'
+      }
+
       return (
         <div>
           <Row className="align-items-center">
             <Col className="text-center">
-              <p><u>{player['name']}</u></p>
+              <p {...playerNameAttributes}>{player['name']}</p>
             </Col>
           </Row>
           <Row noGutters className="justify-content-between align-items-center d-flex">

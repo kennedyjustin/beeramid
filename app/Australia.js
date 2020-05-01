@@ -113,12 +113,18 @@ class Australia extends Component {
     } else {
       if (!this.state.ready && (where !== 'hand' || this.state.selectedCards['hand'].length >= 3)) {
         return
+      } else if (this.state.ready && this.state.selectedCards['hand'].length > 0 && !this.isSelectedCardSameRank(cardIndex)) {
+        return
       }
       selectedCards[where] = selectedCards[where].concat(cardIndex)
       this.setState({
         selectedCards: selectedCards
       })
     }
+  }
+
+  isSelectedCardSameRank(cardIndex) {
+    return this.state.selectedCards['hand'].every(c => this.state.hand[c]['rank'] == this.state.hand[cardIndex]['rank'])
   }
 
   canBottomCardBeSelected() {
@@ -186,6 +192,11 @@ class Australia extends Component {
       )
     }
 
+    let blinkingAttributes = {}
+    if (this.state.currentPlayer) {
+      blinkingAttributes['className'] = 'current-player'
+    }
+
     return (
       <Container fluid>
         <Row>
@@ -201,7 +212,7 @@ class Australia extends Component {
         <hr />
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <p>Final Cards:</p>
+            <p {...blinkingAttributes}>Final Cards</p>
           </Col>
         </Row>
         <Row>
@@ -215,7 +226,7 @@ class Australia extends Component {
         </Row>
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <p>Hand:</p>
+            <p {...blinkingAttributes}>Hand</p>
           </Col>
         </Row>
         <Row>
