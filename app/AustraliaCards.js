@@ -8,7 +8,9 @@ class AustraliaCards extends Component {
     this.state = {
       selectCard: props.selectCard,
       topCards: props.topCards,
-      selectedCards: props.selectedCards
+      bottomCards: props.bottomCards,
+      selectedTopCards: props.selectedTopCards,
+      selectedBottomCards: props.selectedBottomCards
     }
   }
 
@@ -16,31 +18,40 @@ class AustraliaCards extends Component {
     this.setState({
       selectCard: nextProps.selectCard,
       topCards: nextProps.topCards,
-      selectedCards: nextProps.selectedCards
+      bottomCards: nextProps.bottomCards,
+      selectedTopCards: nextProps.selectedTopCards,
+      selectedBottomCards: nextProps.selectedBottomCards
     })
   }
 
   render() {
 
-    const cards = this.state.topCards.map((card, i) => {
-      if (card) {
+    const cards = [0, 1, 2].map((i) => {
+      const topCard = this.state.topCards.length > i ? this.state.topCards[i] : null
+      const bottomCard = this.state.bottomCards.length > i ? this.state.bottomCards[i] : null
+
+      if (topCard) {
         return (
           <a onClick={() => this.state.selectCard('topCards', i)}>
             <Card
-              rank={card['rank']}
-              suit={card['suit']}
-              selected={this.state.selectedCards.includes(i)}
+              rank={topCard['rank']}
+              suit={topCard['suit']}
+              selected={this.state.selectedTopCards.includes(i)}
+            />
+          </a>
+        )
+      } else if (bottomCard) {
+        return (
+          <a onClick={() => this.state.selectCard('bottomCards', i)}>
+            <Card
+              hidden
+              selected={this.state.selectedBottomCards.includes(i)}
             />
           </a>
         )
       } else {
         return (
-          <a onClick={() => this.state.selectCard('topCards', i)}>
-            <Card
-              hidden
-              selected={this.state.selectedCards.includes(i)}
-            />
-          </a>
+          <Card invisible />
         )
       }
     })

@@ -11,7 +11,8 @@ class Card extends Component {
       new: props.new,
       index: props.index,
       deckLeft: props.deckLeft,
-      selected: props.selected
+      selected: props.selected,
+      invisible: props.invisible
     }
   }
 
@@ -23,14 +24,15 @@ class Card extends Component {
       new: nextProps.new,
       index: nextProps.index,
       deckLeft: nextProps.deckLeft,
-      selected: nextProps.selected
+      selected: nextProps.selected,
+      invisible: nextProps.invisible
     });
   }
 
   render() {
 
     let value = '/assets/'
-    if (this.state.hidden) {
+    if (this.state.hidden || this.state.invisible) {
       value += 'red_back'
     } else {
       value += this.state.rank + this.state.suit
@@ -44,6 +46,10 @@ class Card extends Component {
 
     if (this.state.selected) {
       classes += ' selected-card'
+    }
+
+    if (this.state.invisible) {
+      classes += ' invisible'
     }
 
     let style = {}

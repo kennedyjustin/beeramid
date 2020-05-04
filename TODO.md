@@ -15,12 +15,7 @@
 - Beeramid logging
 
 # Australia
-- Test
-  - Test top cards
-  - Test bottom cards
 - UI
-  - TopCards same validation
-  - Bottom cards not showing properly
   - Implement previous player sneaking
   - Design clear animation
   - Clean up edges

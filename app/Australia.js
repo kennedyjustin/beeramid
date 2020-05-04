@@ -16,13 +16,15 @@ class Australia extends Component {
       hand: [],
       pickupPile: [],
       deckLeft: 52,
-      topCards: [null, null, null],
+      topCards: [],
+      bottomCards: [null, null, null],
       currentPlayer: false,
       previousPlayer: false,
       ready: false,
       selectedCards: {
         'hand': [],
-        'topCards': []
+        'topCards': [],
+        'bottomCards': []
       }
     }
 
@@ -38,6 +40,7 @@ class Australia extends Component {
       pickupPile: data.pickupPile,
       deckLeft: data.deckLeft,
       topCards: data.topCards,
+      bottomCards: data.bottomCards,
       currentPlayer: data.currentPlayer,
       previousPlayer: data.previousPlayer,
       ready: data.ready
@@ -65,7 +68,8 @@ class Australia extends Component {
     this.setState({
       selectedCards: {
         'hand': [],
-        'topCards': []
+        'topCards': [],
+        'bottomCards': []
       }
     })
   }
@@ -77,43 +81,51 @@ class Australia extends Component {
   play() {
     this.state.socket.emit('play', {
       'hand': this.state.selectedCards['hand'],
-      'topCards': this.state.selectedCards['topCards']
+      'topCards': this.state.selectedCards['topCards'],
+      'bottomCards': this.state.selectedCards['bottomCards']
     })
     this.setState({
       selectedCards: {
         'hand': [],
-        'topCards': []
+        'topCards': [],
+        'bottomCards': []
       }
     })
   }
 
   selectCard(where, cardIndex) {
-    if (this.state.ready && where === 'topCards') {
-      if (this.state.topCards.every(card => card === null)) {
-        if (!this.canBottomCardBeSelected()) {
-          return
-        }
-      } else {
-        if (!this.canTopCardBeSelected(cardIndex)) {
-          return
-        }
-      }
-    }
 
+    // Replicate data structure
     const selectedCards = {}
     selectedCards['hand'] = this.state.selectedCards['hand'].slice()
     selectedCards['topCards'] = this.state.selectedCards['topCards'].slice()
+    selectedCards['bottomCards'] = this.state.selectedCards['bottomCards'].slice()
 
+    // De-select
     if (this.state.selectedCards[where].includes(cardIndex)) {
       const i = this.state.selectedCards[where].indexOf(cardIndex)
       selectedCards[where].splice(i, 1)
       this.setState({
         selectedCards: selectedCards
       })
+
+    // Select
     } else {
+
+      // Choose top cards
       if (!this.state.ready && (where !== 'hand' || this.state.selectedCards['hand'].length >= 3)) {
         return
-      } else if (this.state.ready && this.state.selectedCards['hand'].length > 0 && !this.isSelectedCardSameRank(cardIndex)) {
+
+      // Validate Hand Selection
+    } else if (this.state.ready && where === 'hand' && !this.canHandCardBeSelected(cardIndex)) {
+        return
+
+      // Validate Top Card Selection
+      } else if (this.state.ready && where === 'topCards' && !this.canTopCardBeSelected(cardIndex)) {
+        return
+
+      // Validate Bottom Card Selection
+      } else if (this.state.ready && where === 'bottomCards' && !this.canBottomCardBeSelected(cardIndex)) {
         return
       }
       selectedCards[where] = selectedCards[where].concat(cardIndex)
@@ -123,33 +135,49 @@ class Australia extends Component {
     }
   }
 
-  isSelectedCardSameRank(cardIndex) {
-    return this.state.selectedCards['hand'].every(c => this.state.hand[c]['rank'] == this.state.hand[cardIndex]['rank'])
+  isSameRankAsAlreadySelectedCards(where, rank) {
+    return this.state.selectedCards['hand'].every(c => this.state[where][c]['rank'] == rank)
   }
 
-  canBottomCardBeSelected() {
-    return this.state.hand.length != 0 || this.state.selectedCards['topCards'].length >= 1
+  canHandCardBeSelected(cardIndex) {
+    const rank = this.state.hand[cardIndex]['rank']
+    if (this.state.selectedCards['hand'].length > 0 && !this.isSameRankAsAlreadySelectedCards('hand', rank)) {
+      return false
+    }
+    if (this.state.selectedCards['topCards'].length > 0 && !this.isSameRankAsAlreadySelectedCards('topCards', rank)) {
+      return false
+    }
+    return true
   }
 
   canTopCardBeSelected(cardIndex) {
-    if (this.state.hand.length == 0) {
+    if (this.state.hand.length == 0 && this.state.topCards.length == 0) {
       return true
     }
+
+    const rank = this.state.topCards[cardIndex]['rank']
 
     const allCardsInHandSelected = this.state.hand.length == this.state.selectedCards['hand'].length
-    const allCardsInHandSameAsTopCard = this.state.hand.every(c => c['rank'] == this.state.topCards[cardIndex]['rank'])
+    const allCardsInHandSameAsTopCard = this.state.hand.length > 0 ? this.state.hand.every(c => c['rank'] == rank) : true
+    const allSelectedTopCardsSameRank = this.state.selectedCards['topCards'].every(c => this.state.topCards[c]['rank'] == rank)
 
-    if (allCardsInHandSelected && allCardsInHandSameAsTopCard) {
+    if (allCardsInHandSelected && allCardsInHandSameAsTopCard && allSelectedTopCardsSameRank) {
       return true
-    } else {
-      return false
     }
+    return false
+  }
+
+  canBottomCardBeSelected() {
+    if (this.state.hand.length == 0 && this.state.topCards.every(c => c == null) && this.state.selectedCards['bottomCards'].length == 0) {
+      return true
+    }
+    return false
   }
 
   render() {
     let setOrPlayButton
     if (this.state.ready) {
-      if (this.state.selectedCards['hand'].length > 0 || this.state.selectedCards['topCards'].length > 0) {
+      if (this.state.selectedCards['hand'].length > 0 || this.state.selectedCards['topCards'].length > 0 || this.state.selectedCards['bottomCards'].length > 0) {
         let setOrPlayButtonName
         if (this.state.selectedCards['hand'].length + this.state.selectedCards['topCards'].length > 1) {
           setOrPlayButtonName = 'Play Cards'
@@ -220,7 +248,9 @@ class Australia extends Component {
             <AustraliaCards
               selectCard={this.selectCard.bind(this)}
               topCards={this.state.topCards}
-              selectedCards={this.state.selectedCards['topCards']}
+              bottomCards={this.state.bottomCards}
+              selectedTopCards={this.state.selectedCards['topCards']}
+              selectedBottomCards={this.state.selectedCards['bottomCards']}
             />
           </Col>
         </Row>

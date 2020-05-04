@@ -24,6 +24,7 @@ module.exports = class Australia extends Game {
     this.previousPlayer = null
 
     this.deal()
+    this.deck.getCards(33)
   }
 
   getName() {
@@ -52,7 +53,7 @@ module.exports = class Australia extends Game {
     }
     this.setCurrentPlayerIfFirstCard(player)
 
-    const isBottomCard = cards['topCards'].length > 0 && player.getTopCards().length == 0
+    const isBottomCard = cards['bottomCards'].length > 0
     let isHand, isTopCard
 
     // Check all cards are the same
@@ -65,7 +66,7 @@ module.exports = class Australia extends Game {
       }
     }
 
-    if (cards['topCards'].length > 0 && !isBottomCard) {
+    if (cards['topCards'].length > 0) {
       topCardsRank = player.getTopCards()[cards['topCards'][0]]['rank']
       isTopCard = true
       if (!cards['topCards'].every(c => player.getTopCards()[c]['rank'] == topCardsRank)) {
@@ -73,7 +74,7 @@ module.exports = class Australia extends Game {
       }
     }
 
-    if (cards['hand'].length > 0 && cards['topCards'].length > 0 && !isBottomCard) {
+    if (cards['hand'].length > 0 && cards['topCards'].length > 0) {
       if (handRank != topCardsRank) {
         return
       }
@@ -82,7 +83,7 @@ module.exports = class Australia extends Game {
     // Check card rank is greater than the card rank of pickupPile
     let rank
     if (isBottomCard) {
-      rank = player.getBottomCards()[cards['topCards'][0]]['rank']
+      rank = player.getBottomCards()[cards['bottomCards'][0]]['rank']
     } else {
       rank = handRank ? handRank : topCardsRank
     }
@@ -91,10 +92,10 @@ module.exports = class Australia extends Game {
       return
     }
 
-    // Place all cards on pickupPile, remove from hand / topCards
+    // Place all cards on pickupPile, remove from hand / topCards / bottomCards
     if (isBottomCard) {
-      this.pickupPile.push(player.getBottomCards[cards['topCards'][0]])
-      player.removeFromBottomCards(cards['topCards'][0])
+      this.pickupPile.push(player.getBottomCards()[cards['bottomCards'][0]])
+      player.removeFromBottomCards(cards['bottomCards'][0])
     } else {
       if (isTopCard) {
         cards['topCards'].forEach(cardIndex => {
@@ -150,7 +151,7 @@ module.exports = class Australia extends Game {
     if (rank1 == TWO || rank1 == TEN) {
       index1 = MAX_INDEX
     }
-    const index2 = this.deck.getRanks().indexOf(rank2)
+    let index2 = this.deck.getRanks().indexOf(rank2)
     if (rank2 == TEN) {
       index2 = 0
     }
@@ -233,6 +234,7 @@ module.exports = class Australia extends Game {
         deckLeft: this.deck.cardsLeft(),
         pickupPile: this.pickupPile.slice().reverse(),
         topCards: player.getTopCards(),
+        bottomCards: player.getBottomCards().map((card) => card ? true : false),
         currentPlayer: (player.getUuid() === this.currentPlayer),
         previousPlayer: (player.getUuid() === this.previousPlayer),
         ready: player.isReady()

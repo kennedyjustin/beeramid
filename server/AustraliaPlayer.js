@@ -69,11 +69,11 @@ module.exports = class BeeramidPlayer extends GamePlayer {
   }
 
   removeFromBottomCards(index) {
-    this.bottomCards.splice(index, 1)
+    this.bottomCards[index] = null
   }
 
   removeFromTopCards(index) {
-    this.topCards.splice(index, 1)
+    this.topCards[index] = null
   }
 
   setflipFirstCard(flipFirstCard) {
