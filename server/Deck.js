@@ -68,4 +68,8 @@ module.exports = class Deck {
   isReallyEmpty() {
     return this.cards.length === 0 && this.discardPile.length === 0
   }
+
+  getRanks() {
+    return RANKS
+  }
 }

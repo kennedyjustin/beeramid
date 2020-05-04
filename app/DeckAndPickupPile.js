@@ -44,14 +44,21 @@ class DeckAndPickupPile extends Component {
       )
     }
 
+    let deck
+    if (this.state.deckLeft > 0) {
+      deck = (
+        <Col xs="auto">
+          <a onClick={this.state.flipFirstCard}>
+            <Card hidden deckLeft={this.state.deckLeft} />
+          </a>
+        </Col>
+      )
+    }
+
     return (
       <Container>
         <Row noGutters className="justify-content-start align-items-center">
-          <Col xs="auto">
-            <a onClick={this.state.flipFirstCard}>
-              <Card hidden deckLeft={this.state.deckLeft} />
-            </a>
-          </Col>
+          {deck}
           <Col xs="auto">
             {pickupPile}
           </Col>

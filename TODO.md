@@ -1,9 +1,10 @@
 # High Level
+- Change name in lobby
+- Rules Modal from navbar
 - Initial page
   - Pic of Jeff on bud light racks
   - Text bar to go to different lobby
 - Better server side logging
-- Change name
 - Save high scores
 
 # Beeramid
@@ -14,10 +15,18 @@
 - Beeramid logging
 
 # Australia
+- Test
+  - Test top cards
+  - Test bottom cards
 - UI
-  - Clean up edges
+  - TopCards same validation
+  - Bottom cards not showing properly
+  - Implement previous player sneaking
   - Design clear animation
+  - Clean up edges
 - Logic
-  - Implement Play Logic
+  - Implement winning
   - Sort cards
+  - Sort players
+  - Implement previous player sneaking
   - Implement Rounds
