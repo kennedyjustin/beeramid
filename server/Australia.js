@@ -15,26 +15,31 @@ const NUM_CARDS_TO_CLEAR = 4
 module.exports = class Australia extends Game {
   constructor(players, hostId, endGame) {
     super(AustraliaPlayer, MAX_PLAYERS, players, hostId, endGame)
-    this.deck = new Deck(false)
-    this.round = this.getPlayers().length
-    //TODO: Implement rounds
-    this.firstCardFlipped = false
-    this.pickupPile = []
-    this.currentPlayer = null
-    this.previousPlayer = null
-
-    this.deal()
-    this.deck.getCards(33)
+    this.winner = null
+    this.initializeRound()
   }
 
   getName() {
     return NAME
   }
 
+  initializeRound() {
+    this.round = this.getRoundName()
+    this.deck = new Deck(false)
+    this.firstCardFlipped = false
+    this.pickupPile = []
+    this.currentPlayer = null
+    this.previousPlayer = null
+    this.deal()
+    this.deck.getCards(24)
+  }
+
   deal() {
     this.getPlayers().forEach(player => {
-      player.setBottomCards(this.deck.getCards(NUM_BOTTOM_CARDS))
-      player.addToHand(this.deck.getCards(NUM_TOP_CARDS + MIN_CARDS_IN_HAND))
+      if (!player.isOut()) {
+        player.setBottomCards(this.deck.getCards(NUM_BOTTOM_CARDS))
+        player.addToHand(this.deck.getCards(NUM_TOP_CARDS + MIN_CARDS_IN_HAND))
+      }
     })
   }
 
@@ -88,8 +93,13 @@ module.exports = class Australia extends Game {
       rank = handRank ? handRank : topCardsRank
     }
 
+    let bottomCardPickup = false
     if (this.pickupPile.length > 0 && !this.isRankHigherThanOrEqual(rank, this.pickupPile[this.pickupPile.length - 1]['rank'])) {
-      return
+      if (isBottomCard) {
+        bottomCardPickup = true
+      } else {
+        return
+      }
     }
 
     // Place all cards on pickupPile, remove from hand / topCards / bottomCards
@@ -111,6 +121,12 @@ module.exports = class Australia extends Game {
       }
     }
 
+    if (bottomCardPickup) {
+      this.pickup(player)
+      this.triggerGameUpdate()
+      return
+    }
+
     // Clear pickupPile if 10 or 4 cards in a row
     let cleared
     if (this.checkFourCardClear() || this.pickupPile[this.pickupPile.length - 1]['rank'] == TEN) {
@@ -121,10 +137,22 @@ module.exports = class Australia extends Game {
     // If deck left add back into hand
     this.replenishHand(player)
 
-    //TODO: Check if player won, and if game is over
+    // Check if player won, and if round is over
+    if (player.checkIfWon()) {
+      console.log('here4')
+      player.setWon(true)
+      const lastPlayer = this.findLastPlayerLeftInRound()
+      if (lastPlayer) {
+        console.log('here5')
+        this.endRound(lastPlayer)
+        console.log(this.winner)
+        this.triggerGameUpdate()
+        return
+      }
+    }
 
     // If not 2, 10, or clear, set next() (unless player is out)
-    if (rank != TWO && rank != TEN && !cleared) {
+    if ((rank != TWO && rank != TEN && !cleared) || player.getWon()) {
       this.next()
     }
 
@@ -197,11 +225,67 @@ module.exports = class Australia extends Game {
       if (this.getPlayers()[index].getUuid() === this.currentPlayer) {
         currentPlayerFound = true
         continue
-      } else if (currentPlayerFound && !this.getPlayers()[index].isOut()) {
+      } else if (currentPlayerFound && !this.getPlayers()[index].isOut() && !this.getPlayers()[index].getWon()) {
         this.previousPlayer = this.currentPlayer.slice()
         this.currentPlayer = this.getPlayers()[index].getUuid()
         break
       }
+    }
+  }
+
+  findLastPlayerLeftInRound() {
+    const playersStillIn = []
+    this.getPlayers().forEach(player => {
+      if (!player.getWon() && !player.isOut()) {
+        playersStillIn.push(player)
+      }
+    })
+    if (playersStillIn.length == 1) {
+      return playersStillIn[0]
+    }
+    return null
+  }
+
+  getRoundName() {
+    const numPlayersStillIn = this.getPlayersStillIn()
+    switch (numPlayersStillIn) {
+      case 2:
+        return "Finals"
+      default:
+        return "Round " + (this.getPlayers().length - numPlayersStillIn + 1) + " (" + numPlayersStillIn + " players left)"
+    }
+  }
+
+  getPlayersStillIn() {
+    let numPlayersStillIn = 0
+    this.getPlayers().forEach(player => {
+      if (!player.isOut()) {
+        numPlayersStillIn++
+      }
+    })
+    return numPlayersStillIn
+  }
+
+  findWinner() {
+    let playerName
+    this.getPlayers().forEach(player => {
+      if (!player.isOut()) {
+        playerName = player.getName()
+      }
+    })
+    return playerName
+  }
+
+  endRound(lastPlayer) {
+    lastPlayer.setOut(true)
+    console.log('here1')
+    if (this.getPlayersStillIn() == 1) {
+      console.log('here2')
+      this.winner = this.findWinner()
+    } else {
+      console.log('here3')
+      this.getPlayers().forEach(player => player.reset())
+      this.initializeRound()
     }
   }
 
@@ -219,7 +303,9 @@ module.exports = class Australia extends Game {
         topCards: player.getTopCards(),
         cardsInHand: player.getHand().length,
         currentPlayer: (player.getUuid() === this.currentPlayer),
-        previousPlayer: (player.getUuid() === this.previousPlayer)
+        previousPlayer: (player.getUuid() === this.previousPlayer),
+        out: player.isOut(),
+        won: player.getWon()
       }
     })
   }
@@ -237,7 +323,11 @@ module.exports = class Australia extends Game {
         bottomCards: player.getBottomCards().map((card) => card ? true : false),
         currentPlayer: (player.getUuid() === this.currentPlayer),
         previousPlayer: (player.getUuid() === this.previousPlayer),
-        ready: player.isReady()
+        ready: player.isReady(),
+        out: player.isOut(),
+        won: player.getWon(),
+        winner: this.winner,
+        round: this.round
       })
     })
   }

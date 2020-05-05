@@ -25,13 +25,18 @@ class Australia extends Component {
         'hand': [],
         'topCards': [],
         'bottomCards': []
-      }
+      },
+      round: "Round 1",
+      out: false,
+      won: false,
+      winner: null
     }
 
     this.state.socket.on('gameUpdate', (data) => this.gameUpdate(data))
   }
 
   gameUpdate(data) {
+    console.log(data.winner)
     this.setState({
       name: data.name,
       players: data.players,
@@ -43,7 +48,11 @@ class Australia extends Component {
       bottomCards: data.bottomCards,
       currentPlayer: data.currentPlayer,
       previousPlayer: data.previousPlayer,
-      ready: data.ready
+      ready: data.ready,
+      round: data.round,
+      out: data.out,
+      won: data.won,
+      winner: data.winner
     })
   }
 
@@ -225,8 +234,78 @@ class Australia extends Component {
       blinkingAttributes['className'] = 'current-player'
     }
 
+    let playerArea
+    if (this.state.won) {
+      playerArea = (
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <p>
+              On to the next round...
+            </p>
+          </Col>
+        </Row>
+      )
+    } else if (this.state.out) {
+      playerArea = (
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <p>
+              You lost.
+            </p>
+          </Col>
+        </Row>
+      )
+    } else {
+      playerArea = (
+        <div>
+          <Row>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+              <p {...blinkingAttributes}>Final Cards</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+              <AustraliaCards
+                selectCard={this.selectCard.bind(this)}
+                topCards={this.state.topCards}
+                bottomCards={this.state.bottomCards}
+                selectedTopCards={this.state.selectedCards['topCards']}
+                selectedBottomCards={this.state.selectedCards['bottomCards']}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+              <p {...blinkingAttributes}>Hand</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+              <AustraliaHand
+                selectCard={this.selectCard.bind(this)}
+                hand={this.state.hand}
+                selectedCards={this.state.selectedCards['hand']}
+              />
+            </Col>
+          </Row>
+          {setOrPlayButton}
+        </div>
+      )
+    }
+
+    if (this.state.winner) {
+      console.log('WINNER: ' + this.state.winner)
+    }
+
     return (
       <Container fluid>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+            <h3>
+              {this.state.round}
+            </h3>
+          </Col>
+        </Row>
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
             <DeckAndPickupPile
@@ -238,37 +317,7 @@ class Australia extends Component {
           </Col>
         </Row>
         <hr />
-        <Row>
-          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <p {...blinkingAttributes}>Final Cards</p>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <AustraliaCards
-              selectCard={this.selectCard.bind(this)}
-              topCards={this.state.topCards}
-              bottomCards={this.state.bottomCards}
-              selectedTopCards={this.state.selectedCards['topCards']}
-              selectedBottomCards={this.state.selectedCards['bottomCards']}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <p {...blinkingAttributes}>Hand</p>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <AustraliaHand
-              selectCard={this.selectCard.bind(this)}
-              hand={this.state.hand}
-              selectedCards={this.state.selectedCards['hand']}
-            />
-          </Col>
-        </Row>
-        {setOrPlayButton}
+        {playerArea}
         <hr />
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">

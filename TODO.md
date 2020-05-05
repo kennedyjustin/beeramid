@@ -16,12 +16,19 @@
 
 # Australia
 - UI
+  - Winner Modal
   - Implement previous player sneaking
   - Design clear animation
   - Clean up edges
+  - Bro Bro
+    - Australia rainbow colors
+    - Jacket picture
 - Logic
-  - Implement winning
+  - Change hosts if player lost
+  - Don't replenish hand after 2/10
+    - wait until all cards in hand are gone
+    - or let player do 2,2,2 rule
+  - Bottom card picked up flashes in hand
   - Sort cards
   - Sort players
   - Implement previous player sneaking
-  - Implement Rounds

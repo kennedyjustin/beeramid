@@ -51,26 +51,45 @@ class AustraliaPlayers extends Component {
         playerNameAttributes['className'] = 'current-player'
       }
 
-      return (
-        <div>
+      let playerArea
+      if (player['won']) {
+        return (
           <Row className="align-items-center">
             <Col className="text-center">
-              <p {...playerNameAttributes}>{player['name']}</p>
+              <p>{player['name'] + ' (made it to the next round)'}</p>
             </Col>
           </Row>
-          <Row noGutters className="justify-content-between align-items-center d-flex">
-            <Col xs="auto" className="mr-auto">
-              {topCards}
-            </Col>
-            <Col xs="auto">
-              {handCard}
-            </Col>
-            <Col xs="auto">
-              {handValue}
+        )
+      } else if (player['out']) {
+        return (
+          <Row className="align-items-center">
+            <Col className="text-center">
+              <p>{player['name'] + ' (spectating)'}</p>
             </Col>
           </Row>
-        </div>
-      )
+        )
+      } else {
+        return (
+          <div>
+            <Row className="align-items-center">
+              <Col className="text-center">
+                <p {...playerNameAttributes}>{player['name']}</p>
+              </Col>
+            </Row>
+            <Row noGutters className="justify-content-between align-items-center d-flex">
+              <Col xs="auto" className="mr-auto">
+                {topCards}
+              </Col>
+              <Col xs="auto">
+                {handCard}
+              </Col>
+              <Col xs="auto">
+                {handValue}
+              </Col>
+            </Row>
+          </div>
+        )
+      }
     })
 
     return (

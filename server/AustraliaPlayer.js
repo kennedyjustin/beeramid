@@ -3,14 +3,27 @@ const GamePlayer = require('./GamePlayer')
 module.exports = class BeeramidPlayer extends GamePlayer {
   constructor(player) {
     super(player)
-    this.out = false
+    this.won = false
+    this.play = null
+    this.pickup = null
+    this.sneakIn = null
+    this.reset()
+  }
+
+  reset() {
+    this.won = false
     this.bottomCards = []
     this.topCards = [null, null, null]
     this.hand = []
     this.ready = false
-    this.play = null
-    this.pickup = null
-    this.sneakIn = null
+  }
+
+  setWon(won) {
+    this.won = won
+  }
+
+  getWon() {
+    return this.won
   }
 
   setOut(out) {
@@ -78,6 +91,15 @@ module.exports = class BeeramidPlayer extends GamePlayer {
 
   setflipFirstCard(flipFirstCard) {
     this.flipFirstCard = flipFirstCard
+  }
+
+  checkIfWon() {
+    const topCardsEmpty = this.topCards.every(c => c == null)
+    const bottomCardsEmpty = this.bottomCards.every(c => c == null)
+    if (this.hand.length == 0 && topCardsEmpty && bottomCardsEmpty) {
+      return true
+    }
+    return false
   }
 
   setPlay(play) {
