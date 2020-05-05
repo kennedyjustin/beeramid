@@ -1,5 +1,7 @@
 const GamePlayer = require('./GamePlayer')
 
+const RANK_ORDER = ['3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K', 'A', '2', '10']
+
 module.exports = class BeeramidPlayer extends GamePlayer {
   constructor(player) {
     super(player)
@@ -69,6 +71,9 @@ module.exports = class BeeramidPlayer extends GamePlayer {
 
   addToHand(cards) {
     this.hand = this.hand.concat(cards)
+    this.hand.sort((a, b) => {
+      return RANK_ORDER.indexOf(a['rank']) - RANK_ORDER.indexOf(b['rank'])
+    })
   }
 
   removeFromHand(indices) {

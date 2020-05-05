@@ -31,7 +31,8 @@ module.exports = class Australia extends Game {
     this.currentPlayer = null
     this.previousPlayer = null
     this.deal()
-    this.deck.getCards(24)
+    // TODO: Remove
+    this.deck.getCards(52 - (this.getPlayers().length * 9) - 1)
   }
 
   deal() {
