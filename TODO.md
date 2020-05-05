@@ -28,6 +28,5 @@
     - wait until all cards in hand are gone
     - or let player do 2,2,2 rule
   - Bottom card picked up flashes in hand
-  - Sort players
   - Implement previous player sneaking
 - Multiple Decks

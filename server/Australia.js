@@ -302,7 +302,24 @@ module.exports = class Australia extends Game {
   }
 
   getAllPlayerInfo(exceptUuid) {
-    return this.getPlayers().filter(player => player.getUuid() !== exceptUuid).map(player => {
+    const playerIndex = this.getPlayers().findIndex((p => p.getUuid() == exceptUuid))
+    const sortedPlayers = this.getPlayers().slice(playerIndex + 1).concat(this.getPlayers().slice(0, playerIndex))
+
+    let playersStillPlaying = []
+    let playersGoingToNextRound = []
+    let spectatingPlayers = []
+    sortedPlayers.forEach(player => {
+      if (!player.isOut() && !player.getWon()) {
+        playersStillPlaying.push(player)
+      } else if (!player.isOut() && player.getWon()) {
+        playersGoingToNextRound.push(player)
+      } else {
+        spectatingPlayers.push(player)
+      }
+    })
+
+    const finalList = playersStillPlaying.concat(playersGoingToNextRound.concat(spectatingPlayers))
+    return finalList.map(player => {
       return {
         name: player.getName(),
         topCards: player.getTopCards(),
