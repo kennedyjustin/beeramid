@@ -24,7 +24,6 @@
     - Australia rainbow colors
     - Jacket picture
 - Logic
-  - Change hosts if player lost
   - Don't replenish hand after 2/10
     - wait until all cards in hand are gone
     - or let player do 2,2,2 rule
@@ -32,3 +31,4 @@
   - Sort cards
   - Sort players
   - Implement previous player sneaking
+- Multiple Decks

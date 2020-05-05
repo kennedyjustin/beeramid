@@ -139,13 +139,10 @@ module.exports = class Australia extends Game {
 
     // Check if player won, and if round is over
     if (player.checkIfWon()) {
-      console.log('here4')
       player.setWon(true)
       const lastPlayer = this.findLastPlayerLeftInRound()
       if (lastPlayer) {
-        console.log('here5')
         this.endRound(lastPlayer)
-        console.log(this.winner)
         this.triggerGameUpdate()
         return
       }
@@ -278,14 +275,21 @@ module.exports = class Australia extends Game {
 
   endRound(lastPlayer) {
     lastPlayer.setOut(true)
-    console.log('here1')
+    const lastPlayerWasHost = lastPlayer.getIsHost()
     if (this.getPlayersStillIn() == 1) {
-      console.log('here2')
       this.winner = this.findWinner()
     } else {
-      console.log('here3')
-      this.getPlayers().forEach(player => player.reset())
+      let newHostSet = false
+      this.getPlayers().forEach(player => {
+        player.reset()
+        if (lastPlayerWasHost && !newHostSet && !player.isOut()) {
+          this.setHost(player)
+          lastPlayer.setIsHost(false)
+          newHostSet = true
+        }
+      })
       this.initializeRound()
+
     }
   }
 
