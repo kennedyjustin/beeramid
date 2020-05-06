@@ -23,9 +23,7 @@
     - Australia rainbow colors
     - Jacket picture
 - Logic
-  - Don't replenish hand after 2/10
-    - wait until all cards in hand are gone
-    - or let player do 2,2,2 rule
+  - 2, 2, 2 rule
   - Bottom card picked up flashes in hand
   - Implement previous player sneaking
 - Multiple Decks

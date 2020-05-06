@@ -31,8 +31,7 @@ module.exports = class Australia extends Game {
     this.currentPlayer = null
     this.previousPlayer = null
     this.deal()
-    // TODO: Remove
-    this.deck.getCards(52 - (this.getPlayers().length * 9) - 1)
+    //this.deck.getCards(52 - (this.getPlayers().length * 9) - 1)
   }
 
   deal() {
@@ -135,8 +134,6 @@ module.exports = class Australia extends Game {
       cleared = true
     }
 
-    // If deck left add back into hand
-    this.replenishHand(player)
 
     // Check if player won, and if round is over
     if (player.checkIfWon()) {
@@ -151,7 +148,11 @@ module.exports = class Australia extends Game {
 
     // If not 2, 10, or clear, set next() (unless player is out)
     if ((rank != TWO && rank != TEN && !cleared) || player.getWon()) {
+      this.replenishHand(player)
       this.next()
+    // If still the same players turn, and their hand is empty, replenish
+  } else if (player.getHand().length == 0) {
+      this.replenishHand(player)
     }
 
     this.triggerGameUpdate()
