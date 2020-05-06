@@ -92,3 +92,7 @@ hr {
 .invisble {
   visibility: hidden;
 }
+
+.black-text {
+  color: black;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap'
 import DeckAndPickupPile from './DeckAndPickupPile'
 import AustraliaHand from './AustraliaHand'
 import AustraliaCards from './AustraliaCards'
@@ -36,7 +36,6 @@ class Australia extends Component {
   }
 
   gameUpdate(data) {
-    console.log(data.winner)
     this.setState({
       name: data.name,
       players: data.players,
@@ -220,12 +219,22 @@ class Australia extends Component {
 
     let finalHr
     let endButton
+    let modalFooter
     if (this.state.isHost) {
       finalHr = (<hr />)
       endButton = (
         <Button variant="primary" onClick={this.endGame.bind(this)}>
           End Game
         </Button>
+      )
+      modalFooter = (
+        <Modal.Footer>
+          <Container fluid>
+            <Col className="text-center">
+              {endButton}
+            </Col>
+          </Container>
+        </Modal.Footer>
       )
     }
 
@@ -293,10 +302,6 @@ class Australia extends Component {
       )
     }
 
-    if (this.state.winner) {
-      console.log('WINNER: ' + this.state.winner)
-    }
-
     return (
       <Container fluid>
         <Row>
@@ -333,6 +338,14 @@ class Australia extends Component {
           </Col>
         </Row>
         <Row></Row>
+        <Modal show={this.state.winner != null} centered>
+          <Modal.Header className="text-center">
+            <Modal.Title className="black-text w-100">
+              {this.state.winner + ' won!'}
+            </Modal.Title>
+          </Modal.Header>
+          {modalFooter}
+      </Modal>
       </Container>
     )
   }

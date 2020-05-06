@@ -16,7 +16,6 @@
 
 # Australia
 - UI
-  - Winner Modal
   - Implement previous player sneaking
   - Design clear animation
   - Clean up edges
