@@ -15,15 +15,15 @@
 - Beeramid logging
 
 # Australia
-- UI
-  - Implement previous player sneaking
-  - Design clear animation
-  - Clean up edges
-  - Bro Bro
-    - Australia rainbow colors
-    - Jacket picture
-- Logic
-  - 2, 2, 2 rule
-  - Bottom card picked up flashes in hand
-  - Implement previous player sneaking
+- Implement previous player sneaking
+- 2, 2, 2 rule
+- Bottom card picked up flashes in hand upon pickup (maybe also new card)
+- 10 / 4 Card clear animation
+- Clean up edges
+  - Card bottom-margin
+  - General row spacing
+  - When hand empty, remove
+  - Finalize on won/out text
+- Bro Bro
+  - Jacket picture
 - Multiple Decks

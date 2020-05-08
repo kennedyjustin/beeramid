@@ -47,11 +47,16 @@ class Lobby extends Component {
     let startButtons
     if (lobbyMembers >= 2 && !this.state.gamePlaying) {
       startButtons = Object.keys(this.state.games).map(game => {
+        let buttonClass = ''
+        if (this.state.games[game]['enabled'] && this.state.games[game]['new']) {
+          buttonClass = 'rainbow'
+        }
         return (
           <Row>
             <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
               <Button
                 id={game}
+                className={buttonClass}
                 variant={this.state.games[game]['enabled'] ? 'primary' : 'secondary'}
                 disabled={this.state.games[game]['enabled'] ? false : true}
                 onClick={this.startGame.bind(this)}

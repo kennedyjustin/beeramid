@@ -11,8 +11,8 @@ import Beeramid from './Beeramid'
 import Australia from './Australia'
 
 const GAMES = {
-  'Beeramid': { app: Beeramid, enabled: true },
-  'Australia': { app: Australia, enabled: false }
+  'Beeramid': { app: Beeramid, enabled: true , new: false },
+  'Australia': { app: Australia, enabled: false, new: true }
 }
 
 class App extends Component {
@@ -65,6 +65,7 @@ class App extends Component {
   render() {
     let game
     let title = 'Beeramid'
+    let navbarClass = ''
     if (this.state.admin) {
       game = (
         <AdminPortal data={this.state.admin} />
@@ -92,6 +93,9 @@ class App extends Component {
     } else {
       const gameType = GAMES[this.state.gameType]
       if (gameType) {
+        if (gameType['new']) {
+          navbarClass = 'rainbow'
+        }
         title = this.state.gameType
         const GameType = gameType['app']
         game = (
@@ -109,9 +113,11 @@ class App extends Component {
 
     return (
       <div>
-        <Navbar bg="dark" variant="dark"><Navbar.Brand>
-          {title}
-        </Navbar.Brand></Navbar>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand className={navbarClass}>
+            {title}
+          </Navbar.Brand>
+        </Navbar>
         {game}
       </div>
     )
