@@ -52,14 +52,21 @@ module.exports = class Australia extends Game {
   }
 
   play(player, cards) {
-
-    if (!player.isReady() || !this.firstCardFlipped || (this.currentPlayer != null && player.getUuid() != this.currentPlayer)) {
+    if (!player.isReady() || !this.firstCardFlipped || (this.currentPlayer != null && player.getUuid() != this.currentPlayer && player.getUuid() != this.previousPlayer)) {
       return
     }
     this.setCurrentPlayerIfFirstCard(player)
 
+    const isCurrentPlayer = this.currentPlayer != null && player.getUuid() == this.currentPlayer
+    const isPreviousPlayer = this.previousPlayer != null && player.getUuid() == this.previousPlayer
+
     const isBottomCard = cards['bottomCards'].length > 0
     let isHand, isTopCard
+
+    // Sneaking validation
+    if (isPreviousPlayer && (isBottomCard || this.pickupPile == 0)) {
+      return
+    }
 
     // Check all cards are the same
     let handRank, topCardsRank
@@ -94,10 +101,16 @@ module.exports = class Australia extends Game {
     }
 
     let bottomCardPickup = false
-    if (this.pickupPile.length > 0 && !this.isRankHigherThanOrEqual(rank, this.pickupPile[this.pickupPile.length - 1]['rank'])) {
-      if (isBottomCard) {
-        bottomCardPickup = true
-      } else {
+    if (isCurrentPlayer) {
+      if (this.pickupPile.length > 0 && !this.isRankHigherThanOrEqual(rank, this.pickupPile[this.pickupPile.length - 1]['rank'])) {
+        if (isBottomCard) {
+          bottomCardPickup = true
+        } else {
+          return
+        }
+      }
+    } else {
+      if (this.pickupPile[this.pickupPile.length - 1]['rank'] != rank) {
         return
       }
     }
@@ -146,12 +159,16 @@ module.exports = class Australia extends Game {
       }
     }
 
-    // If not 2, 10, or clear, set next() (unless player is out)
-    if ((rank != TWO && rank != TEN && !cleared) || player.getWon()) {
-      this.replenishHand(player)
-      this.next()
-    // If still the same players turn, and their hand is empty, replenish
-  } else if (player.getHand().length == 0) {
+    if (isCurrentPlayer) {
+      // If not 2, 10, or clear, set next() (unless player is out)
+      if ((rank != TWO && rank != TEN && !cleared) || player.getWon()) {
+        this.replenishHand(player)
+        this.next()
+      // If still the same players turn, and their hand is empty, replenish
+      } else if (player.getHand().length == 0) {
+        this.replenishHand(player)
+      }
+    } else {
       this.replenishHand(player)
     }
 
