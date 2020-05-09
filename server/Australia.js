@@ -44,11 +44,35 @@ module.exports = class Australia extends Game {
   }
 
   clickDeck(player) {
-    this.flipFirstCard(player)
-  }
+    if (!player.isReady()) {
+      return
+    }
 
-  flipFirstCard(player) {
-    if (player.isReady() && !this.firstCardFlipped) {
+    // 2/2/2 Veteran Move
+    if (this.firstCardFlipped) {
+
+      if (player.getUuid() != this.currentPlayer || this.deck.isEmpty()) {
+        return
+      }
+
+      const mostRecentPickupCardIsTenOrTwo = this.pickupPile.length > 0 && (this.pickupPile[this.pickupPile.length - 1]['rank'] == TEN || this.pickupPile[this.pickupPile.length - 1]['rank'] == TWO)
+
+      if ((this.pickupPile.length == 0 || mostRecentPickupCardIsTenOrTwo) && player.getHand().every(c => c['rank'] == TWO || c['rank'] == TEN)) {
+          const card = this.deck.getCards(1)
+          if (card['rank'] == TEN) {
+            this.pickupPile = []
+          } else {
+            this.pickupPile.push(card)
+          }
+          this.replenishHand(player)
+          if (card['rank'] != TWO && card['rank'] != TEN) {
+            this.next()
+          }
+          this.triggerGameUpdate()
+      }
+
+    // Flip first card
+    } else {
       this.pickupPile.push(this.deck.getCards(1))
       this.firstCardFlipped = true
       this.triggerGameUpdate()
