@@ -24,5 +24,4 @@
   - Finalize on won/out text
 - Bro Bro
   - Jacket picture
-  - Add hockey
 - Multiple Decks

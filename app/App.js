@@ -9,10 +9,12 @@ import AdminPortal from './AdminPortal'
 import ErrorMessage from './ErrorMessage'
 import Beeramid from './Beeramid'
 import Australia from './Australia'
+import Hockey from './Hockey'
 
 const GAMES = {
   'Beeramid': { app: Beeramid, enabled: true , new: false },
-  'Australia': { app: Australia, enabled: false, new: true }
+  'Australia': { app: Australia, enabled: false, new: true },
+  'Hockey': { app: Hockey, enabled: false, new: false }
 }
 
 class App extends Component {
