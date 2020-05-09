@@ -8,7 +8,7 @@ class DeckAndPickupPile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      flipFirstCard: props.flipFirstCard,
+      clickDeck: props.clickDeck,
       pickup: props.pickup,
       deckLeft: props.deckLeft,
       pickupPile: props.pickupPile
@@ -17,7 +17,7 @@ class DeckAndPickupPile extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      flipFirstCard: nextProps.flipFirstCard,
+      clickDeck: nextProps.clickDeck,
       pickup: nextProps.pickup,
       deckLeft: nextProps.deckLeft,
       pickupPile: nextProps.pickupPile
@@ -48,7 +48,7 @@ class DeckAndPickupPile extends Component {
     if (this.state.deckLeft > 0) {
       deck = (
         <Col xs="auto">
-          <a onClick={this.state.flipFirstCard}>
+          <a onClick={this.state.clickDeck}>
             <Card hidden deckLeft={this.state.deckLeft} />
           </a>
         </Col>

@@ -43,6 +43,10 @@ module.exports = class Australia extends Game {
     })
   }
 
+  clickDeck(player) {
+    this.flipFirstCard(player)
+  }
+
   flipFirstCard(player) {
     if (player.isReady() && !this.firstCardFlipped) {
       this.pickupPile.push(this.deck.getCards(1))
@@ -202,14 +206,6 @@ module.exports = class Australia extends Game {
     return index1 >= index2
   }
 
-  sneakIn(player, cards) {
-    if (!player.isReady() || !player.getUuid() === this.previousPlayer) {
-      return
-    }
-
-    //TODO: Implement
-  }
-
   pickup(player) {
     if (!player.isReady()) {
       return
@@ -313,10 +309,9 @@ module.exports = class Australia extends Game {
   }
 
   setCustomEventHandlers(player) {
-    player.setflipFirstCard(this.flipFirstCard.bind(this))
+    player.setClickDeck(this.clickDeck.bind(this))
     player.setPlay(this.play.bind(this))
     player.setPickup(this.pickup.bind(this))
-    player.setSneakIn(this.sneakIn.bind(this))
   }
 
   getAllPlayerInfo(exceptUuid) {

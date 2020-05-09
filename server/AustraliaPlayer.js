@@ -8,7 +8,6 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     this.won = false
     this.play = null
     this.pickup = null
-    this.sneakIn = null
     this.reset()
   }
 
@@ -94,8 +93,8 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     this.topCards[index] = null
   }
 
-  setflipFirstCard(flipFirstCard) {
-    this.flipFirstCard = flipFirstCard
+  setClickDeck(clickDeck) {
+    this.clickDeck = clickDeck
   }
 
   checkIfWon() {
@@ -115,16 +114,12 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     this.pickup = pickup
   }
 
-  setSneakIn(sneakIn) {
-    this.sneakIn = sneakIn
-  }
-
   initializeCustomListeners() {
     this.player.getSocket().on('setTopCards', (data) => {
       this.setTopCards(data['indices'])
     })
-    this.player.getSocket().on('flipFirstCard', () => {
-      this.flipFirstCard(this)
+    this.player.getSocket().on('clickDeck', () => {
+      this.clickDeck(this)
     })
     this.player.getSocket().on('play', (data) => {
       this.play(this, data)
@@ -132,17 +127,13 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     this.player.getSocket().on('pickup', (data) => {
       this.pickup(this, data)
     })
-    this.player.getSocket().on('sneakIn', (data) => {
-      this.sneakIn(this, data)
-    })
   }
 
   removeCustomListeners() {
     this.player.getSocket().removeAllListeners(['setTopCards'])
-    this.player.getSocket().removeAllListeners(['flipFirstCard'])
+    this.player.getSocket().removeAllListeners(['clickDeck'])
     this.player.getSocket().removeAllListeners(['play'])
     this.player.getSocket().removeAllListeners(['pickup'])
-    this.player.getSocket().removeAllListeners(['sneakIn'])
   }
 
 }

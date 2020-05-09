@@ -63,11 +63,11 @@ class Australia extends Component {
     this.state.socket.emit('endGame', {})
   }
 
-  flipFirstCard() {
+  clickDeck() {
     if (!this.state.ready) {
       return
     }
-    this.state.socket.emit('flipFirstCard', {})
+    this.state.socket.emit('clickDeck', {})
   }
 
   setTopCards() {
@@ -336,7 +336,7 @@ class Australia extends Component {
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
             <DeckAndPickupPile
-              flipFirstCard={this.flipFirstCard.bind(this)}
+              clickDeck={this.clickDeck.bind(this)}
               pickup={this.pickup.bind(this)}
               deckLeft={this.state.deckLeft}
               pickupPile={this.state.pickupPile}
