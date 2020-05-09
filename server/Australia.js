@@ -30,6 +30,7 @@ module.exports = class Australia extends Game {
     this.pickupPile = []
     this.currentPlayer = null
     this.previousPlayer = null
+    this.clearAlert = null
     this.deal()
     //this.deck.getCards(52 - (this.getPlayers().length * 9) - 1)
   }
@@ -61,6 +62,7 @@ module.exports = class Australia extends Game {
           const card = this.deck.getCards(1)
           if (card['rank'] == TEN) {
             this.pickupPile = []
+            setClearAlert(TEN)
           } else {
             this.pickupPile.push(card)
           }
@@ -170,11 +172,15 @@ module.exports = class Australia extends Game {
 
     // Clear pickupPile if 10 or 4 cards in a row
     let cleared
-    if (this.checkFourCardClear() || this.pickupPile[this.pickupPile.length - 1]['rank'] == TEN) {
+    if (this.checkFourCardClear()) {
       this.pickupPile = []
       cleared = true
+      this.setClearAlert(rank)
+    } else if (this.pickupPile[this.pickupPile.length - 1]['rank'] == TEN) {
+      this.pickupPile = []
+      cleared = true
+      this.setClearAlert(TEN)
     }
-
 
     // Check if player won, and if round is over
     if (player.checkIfWon()) {
@@ -332,6 +338,16 @@ module.exports = class Australia extends Game {
     }
   }
 
+  setClearAlert(rank) {
+    let clearMessage
+    if (rank == TEN) {
+      clearMessage = 'Cleared with a 10'
+    } else {
+      clearMessage = 'Cleared with 4 ' + rank + '\'s'
+    }
+    this.clearAlert = clearMessage
+  }
+
   setCustomEventHandlers(player) {
     player.setClickDeck(this.clickDeck.bind(this))
     player.setPlay(this.play.bind(this))
@@ -386,8 +402,10 @@ module.exports = class Australia extends Game {
         out: player.isOut(),
         won: player.getWon(),
         winner: this.winner,
-        round: this.round
+        round: this.round,
+        clearAlert: this.clearAlert
       })
     })
+    this.clearAlert = null
   }
 }

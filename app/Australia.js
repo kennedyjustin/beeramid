@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Alert } from 'react-bootstrap'
 import DeckAndPickupPile from './DeckAndPickupPile'
 import AustraliaHand from './AustraliaHand'
 import AustraliaCards from './AustraliaCards'
@@ -33,7 +33,8 @@ class Australia extends Component {
       round: "Round 1",
       out: false,
       won: false,
-      winner: null
+      winner: null,
+      clearAlert: null
     }
 
     this.state.socket.on('gameUpdate', (data) => this.gameUpdate(data))
@@ -55,7 +56,8 @@ class Australia extends Component {
       round: data.round,
       out: data.out,
       won: data.won,
-      winner: data.winner
+      winner: data.winner,
+      clearAlert: data.clearAlert
     })
   }
 
@@ -205,6 +207,22 @@ class Australia extends Component {
   }
 
   render() {
+
+    let roundOrClearAlert
+    if (this.state.clearAlert) {
+      roundOrClearAlert = (
+        <Alert variant="primary">
+          {this.state.clearAlert}
+        </Alert>
+      )
+    } else {
+      roundOrClearAlert = (
+        <h3>
+          {this.state.round}
+        </h3>
+      )
+    }
+
     let setOrPlayButton
     if (this.state.ready) {
       if (this.state.selectedCards['hand'].length > 0 || this.state.selectedCards['topCards'].length > 0 || this.state.selectedCards['bottomCards'].length > 0) {
@@ -328,9 +346,7 @@ class Australia extends Component {
       <Container fluid>
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-            <h3>
-              {this.state.round}
-            </h3>
+            {roundOrClearAlert}
           </Col>
         </Row>
         <Row>

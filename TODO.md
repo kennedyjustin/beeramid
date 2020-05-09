@@ -16,7 +16,6 @@
 
 # Australia
 - Bottom card picked up flashes in hand upon pickup (maybe also new card)
-- 10 / 4 Card clear animation
 - Clean up edges
   - Card bottom-margin
   - General row spacing
