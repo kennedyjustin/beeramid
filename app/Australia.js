@@ -5,6 +5,10 @@ import AustraliaHand from './AustraliaHand'
 import AustraliaCards from './AustraliaCards'
 import AustraliaPlayers from './AustraliaPlayers'
 
+const RANK_ORDER = ['3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K', 'A']
+const TWO = '2'
+const TEN = '10'
+
 class Australia extends Component {
   constructor(props) {
     super(props)
@@ -125,7 +129,7 @@ class Australia extends Component {
         return
 
       // Validate Hand Selection
-    } else if (this.state.ready && where === 'hand' && !this.canHandCardBeSelected(cardIndex)) {
+      } else if (this.state.ready && where === 'hand' && !this.canHandCardBeSelected(cardIndex)) {
         return
 
       // Validate Top Card Selection
@@ -144,7 +148,18 @@ class Australia extends Component {
   }
 
   isSameRankAsAlreadySelectedCards(where, rank) {
-    return this.state.selectedCards['hand'].every(c => this.state[where][c]['rank'] == rank)
+    return this.state.selectedCards[where].every(c => this.state[where][c]['rank'] == rank)
+  }
+
+  isRankHigherThanOrEqualToLastPickupCard(rank) {
+    if (this.state.pickupPile.length > 0) {
+      if (this.state.pickupPile[0]['rank'] == TWO || this.state.pickupPile[0]['rank'] == TEN || rank == TWO || rank == TEN) {
+        return true
+      } else {
+        return RANK_ORDER.indexOf(rank) >= RANK_ORDER.indexOf(this.state.pickupPile[0]['rank'])
+      }
+    }
+    return true
   }
 
   canHandCardBeSelected(cardIndex) {
@@ -153,6 +168,9 @@ class Australia extends Component {
       return false
     }
     if (this.state.selectedCards['topCards'].length > 0 && !this.isSameRankAsAlreadySelectedCards('topCards', rank)) {
+      return false
+    }
+    if (!this.isRankHigherThanOrEqualToLastPickupCard(rank)) {
       return false
     }
     return true
@@ -164,6 +182,10 @@ class Australia extends Component {
     }
 
     const rank = this.state.topCards[cardIndex]['rank']
+
+    if (!this.isRankHigherThanOrEqualToLastPickupCard(rank)) {
+      return false
+    }
 
     const allCardsInHandSelected = this.state.hand.length == this.state.selectedCards['hand'].length
     const allCardsInHandSameAsTopCard = this.state.hand.length > 0 ? this.state.hand.every(c => c['rank'] == rank) : true
