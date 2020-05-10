@@ -13,7 +13,7 @@ import Hockey from './Hockey'
 
 const GAMES = {
   'Beeramid': { app: Beeramid, enabled: true , new: false },
-  'Australia': { app: Australia, enabled: false, new: true },
+  'Australia': { app: Australia, enabled: true, new: true },
   'Hockey': { app: Hockey, enabled: false, new: false }
 }
 

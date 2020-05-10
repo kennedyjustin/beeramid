@@ -19,7 +19,7 @@
   - Card bottom-margin
   - General row spacing
   - deck should have white outline
-  - When hand empty, remove
+  - When hand empty, remove section
   - Finalize on won/out text
 - Bro Bro
   - Jacket picture
