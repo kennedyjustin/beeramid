@@ -131,10 +131,12 @@ module.exports = class Australia extends Game {
     }
 
     let bottomCardPickup = false
+    let bottomCard
     if (isCurrentPlayer) {
       if (this.pickupPile.length > 0 && !this.isRankHigherThanOrEqual(rank, this.pickupPile[this.pickupPile.length - 1]['rank'])) {
         if (isBottomCard) {
           bottomCardPickup = true
+          player.getBottomCards()[cards['bottomCards'][0]]['new'] = true
         } else {
           return
         }
@@ -166,7 +168,6 @@ module.exports = class Australia extends Game {
 
     if (bottomCardPickup) {
       this.pickup(player)
-      this.triggerGameUpdate()
       return
     }
 
@@ -407,5 +408,6 @@ module.exports = class Australia extends Game {
       })
     })
     this.clearAlert = null
+    this.getPlayers().forEach(player => player.removeNewFromHand())
   }
 }

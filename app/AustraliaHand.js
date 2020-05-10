@@ -28,6 +28,7 @@ class AustraliaHand extends Component {
           <Card
             rank={card['rank']}
             suit={card['suit']}
+            new={card['new']}
             selected={this.state.selectedCards.includes(i)}
           />
         </a>

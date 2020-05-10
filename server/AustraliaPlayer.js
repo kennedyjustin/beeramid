@@ -85,6 +85,15 @@ module.exports = class BeeramidPlayer extends GamePlayer {
     this.hand = newHand
   }
 
+  removeNewFromHand() {
+    for (let i = 0; i < this.hand.length; i++) {
+      const card = this.hand[i]
+      if (card['new']) {
+        delete card['new']
+      }
+    }
+  }
+
   removeFromBottomCards(index) {
     this.bottomCards[index] = null
   }

@@ -15,10 +15,10 @@
 - Beeramid logging
 
 # Australia
-- Bottom card picked up flashes in hand upon pickup (maybe also new card)
 - Clean up edges
   - Card bottom-margin
   - General row spacing
+  - deck should have white outline
   - When hand empty, remove
   - Finalize on won/out text
 - Bro Bro
