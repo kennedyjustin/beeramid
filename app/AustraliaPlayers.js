@@ -34,17 +34,26 @@ class AustraliaPlayers extends Component {
         )
       }
 
-      const topCards = player['topCards'].map(card => {
-        if (card) {
-          return (
-            <Card rank={card['rank']} suit={card['suit']} />
-          )
-        } else {
+      let topCards
+      if (player['topCards'].every(c => c == null)) {
+        topCards = Array.from(Array(player['numBottomCards'])).map(() => {
           return (
             <Card hidden />
           )
-        }
-      })
+        })
+      } else {
+        topCards = player['topCards'].map(card => {
+          if (card) {
+            return (
+              <Card rank={card['rank']} suit={card['suit']} />
+            )
+          } else {
+            return (
+              <Card hidden />
+            )
+          }
+        })
+      }
 
       let playerNameAttributes = {}
       if (player['currentPlayer']) {

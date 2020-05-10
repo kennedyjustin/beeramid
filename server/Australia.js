@@ -377,6 +377,7 @@ module.exports = class Australia extends Game {
       return {
         name: player.getName(),
         topCards: player.getTopCards(),
+        numBottomCards: player.getBottomCards().filter(c => c != null).length,
         cardsInHand: player.getHand().length,
         currentPlayer: (player.getUuid() === this.currentPlayer),
         previousPlayer: (player.getUuid() === this.previousPlayer),

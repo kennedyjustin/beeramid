@@ -15,6 +15,9 @@
 - Beeramid logging
 
 # Australia
+- Bug
+  - Play top card before picking up
+  - See final card
 - Clean up edges
   - Card bottom-margin
   - General row spacing
