@@ -55,7 +55,7 @@ class DeckAndPickupPile extends Component {
       )
     } else {
       deck = (
-        <Col xs="auto">
+        <Col xs="auto" className="deck-gone">
           <Card invisible />
         </Col>
       )

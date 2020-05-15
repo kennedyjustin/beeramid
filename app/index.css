@@ -93,6 +93,11 @@ hr {
   visibility: hidden;
 }
 
+.deck-gone {
+  border: solid 2px white;
+  margin-right: 5px
+}
+
 .black-text {
   color: black;
 }
