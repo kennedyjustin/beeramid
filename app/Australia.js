@@ -305,6 +305,31 @@ class Australia extends Component {
         </Row>
       )
     } else {
+      let handArea
+      if (this.state.hand.length > 0) {
+        handArea = (
+          <div>
+            <Row>
+              <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+                <p {...blinkingAttributes}>Hand</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
+                <AustraliaHand
+                  selectCard={this.selectCard.bind(this)}
+                  hand={this.state.hand}
+                  selectedCards={this.state.selectedCards['hand']}
+                />
+              </Col>
+            </Row>
+          </div>
+        )
+      } else {
+        handArea = (
+          <div></div>
+        )
+      }
       playerArea = (
         <div>
           <Row>
@@ -323,20 +348,7 @@ class Australia extends Component {
               />
             </Col>
           </Row>
-          <Row>
-            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-              <p {...blinkingAttributes}>Hand</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
-              <AustraliaHand
-                selectCard={this.selectCard.bind(this)}
-                hand={this.state.hand}
-                selectedCards={this.state.selectedCards['hand']}
-              />
-            </Col>
-          </Row>
+          {handArea}
           {setOrPlayButton}
         </div>
       )

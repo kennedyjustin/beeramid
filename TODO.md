@@ -21,7 +21,6 @@
 - Clean up edges
   - Card bottom-margin
   - General row spacing
-  - When hand empty, remove section
   - Finalize on won/out text
 - See bottom three cards
 - Bro Bro
