@@ -98,6 +98,17 @@ module.exports = class Australia extends Game {
       return
     }
 
+    // Check cards exist
+    if (cards['hand'].length > player.getHand().length) {
+      return
+    }
+    if (cards['topCards'].length > player.getTopCards().filter(c => c != null).length) {
+      return
+    }
+    if (cards['bottomCards'].length > player.getBottomCards().filter(c => c != null).length) {
+      return
+    }
+
     // Check all cards are the same
     let handRank, topCardsRank
     if (cards['hand'].length > 0) {

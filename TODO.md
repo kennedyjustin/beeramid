@@ -24,6 +24,7 @@
   - deck should have white outline
   - When hand empty, remove section
   - Finalize on won/out text
+- See bottom three cards
 - Bro Bro
   - Jacket picture
 - Multiple Decks
