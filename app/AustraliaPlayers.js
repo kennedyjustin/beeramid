@@ -65,7 +65,7 @@ class AustraliaPlayers extends Component {
         return (
           <Row className="align-items-center">
             <Col className="text-center">
-              <p>{player['name'] + ' (made it to the next round)'}</p>
+              <p>{player['name'] + ' is on to the next round'}</p>
             </Col>
           </Row>
         )
@@ -73,7 +73,7 @@ class AustraliaPlayers extends Component {
         return (
           <Row className="align-items-center">
             <Col className="text-center">
-              <p>{player['name'] + ' (spectating)'}</p>
+              <p>{player['name'] + ' lost (spectating)'}</p>
             </Col>
           </Row>
         )

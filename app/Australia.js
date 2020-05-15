@@ -299,7 +299,7 @@ class Australia extends Component {
         <Row>
           <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }} className="text-center">
             <p>
-              You lost.
+              You suck
             </p>
           </Col>
         </Row>
@@ -391,7 +391,7 @@ class Australia extends Component {
         <Modal show={this.state.winner != null} centered>
           <Modal.Header className="text-center">
             <Modal.Title className="black-text w-100">
-              {this.state.winner + ' won!'}
+              {this.state.winner + ' won a ring'}
             </Modal.Title>
           </Modal.Header>
           {modalFooter}

@@ -6,6 +6,7 @@
   - Text bar to go to different lobby
 - Better server side logging
 - Save high scores
+- Restarts on crash
 
 # Beeramid
 - Rearrange cards in hand
@@ -21,7 +22,6 @@
 - Clean up edges
   - Card bottom-margin
   - General row spacing
-  - Finalize on won/out text
 - See bottom three cards
 - Bro Bro
   - Jacket picture
