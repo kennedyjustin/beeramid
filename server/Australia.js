@@ -62,7 +62,7 @@ module.exports = class Australia extends Game {
           const card = this.deck.getCards(1)
           if (card['rank'] == TEN) {
             this.pickupPile = []
-            setClearAlert(TEN)
+            this.setClearAlert(TEN)
           } else {
             this.pickupPile.push(card)
           }

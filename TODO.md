@@ -16,13 +16,10 @@
 - Beeramid logging
 
 # Australia
-- Bug
-  - Play top card before picking up
-  - See final card
-- Clean up edges
-  - General row spacing
+- General row spacing
+- Play top card before picking up
+- See final card
 - See bottom three cards
-- Bro Bro
-  - Jacket picture
+- Jacket picture
 - Multiple Decks
 - Team show
